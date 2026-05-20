@@ -12,6 +12,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ivory Consulting | Neuromanagement & QVCT – Guadeloupe</title>
   <meta name="description" content="Cabinet de conseil en neuromanagement et QVCT pour dirigeants de TPE/PME en Guadeloupe. Ateliers cognitifs validés scientifiquement pour réduire l'absentéisme et les tensions d'équipe."/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Nadjé GUEHI – Ivory Consulting"/>
+  <link rel="canonical" href="https://guehinadje-ic.github.io/ivoryconsulting/"/>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://guehinadje-ic.github.io/ivoryconsulting/"/>
+  <meta property="og:title" content="Ivory Consulting | Neuromanagement & QVCT – Guadeloupe"/>
+  <meta property="og:description" content="Réduisez l'absentéisme et les tensions d'équipe grâce aux ateliers cognitifs de neuromanagement – le seul cabinet certifié Fabrique à Neurones en Guadeloupe."/>
+  <meta property="og:image" content="https://guehinadje-ic.github.io/ivoryconsulting/image%201.jpeg"/>
+  <meta property="og:locale" content="fr_FR"/>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Ivory Consulting | Neuromanagement & QVCT – Guadeloupe"/>
+  <meta name="twitter:description" content="Ateliers cognitifs validés scientifiquement pour dirigeants TPE/PME en Guadeloupe."/>
+  <meta name="twitter:image" content="https://guehinadje-ic.github.io/ivoryconsulting/image%201.jpeg"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -20,10 +35,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; font-size:16px; }
     body { font-family:'Inter',sans-serif; background:#F9F6F0; color:#1a1a2e; overflow-x:hidden; }
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2KH5L74"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
     :root {
       --ivory:#F9F6F0; --navy:#0B1020; --navy-mid:#111827;
@@ -37,13 +48,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .site-header {
       background:var(--navy); padding:18px 20px 0; text-align:center;
       position:sticky; top:0; z-index:1000; box-shadow:0 4px 30px rgba(0,0,0,0.45);
+      transition:padding 0.35s ease, box-shadow 0.35s ease;
     }
-    .logo-area { display:flex; flex-direction:column; align-items:center; margin-bottom:14px; }
+    /* Header compact en mode scroll */
+    .site-header.scrolled { padding:6px 20px 0; box-shadow:0 2px 20px rgba(0,0,0,0.6); }
+    .site-header.scrolled .logo-area { margin-bottom:6px; }
+    .site-header.scrolled .logo-3d-wrap { width:48px; height:48px; }
+    .site-header.scrolled .logo-tagline { display:none; }
+    .site-header.scrolled .logo-3d-inner { animation-play-state:paused; }
+    .site-header.scrolled .nav-tab { padding:8px 14px; font-size:0.68rem; }
+    .logo-area { display:flex; flex-direction:column; align-items:center; margin-bottom:14px; transition:margin 0.35s ease; }
 
     /* Logo 3D rotation */
     .logo-3d-wrap {
       width:130px; height:130px; perspective:900px; cursor:pointer;
       display:flex; align-items:center; justify-content:center;
+      transition:width 0.35s ease, height 0.35s ease;
     }
     .logo-3d-inner {
       width:100%; height:100%; position:relative;
@@ -58,7 +78,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     @keyframes logo-spin { 0%{transform:rotateY(0deg);} 100%{transform:rotateY(360deg);} }
 
-    .logo-tagline { margin-top:7px; font-size:0.72rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold); }
+    .logo-tagline { margin-top:7px; font-size:0.72rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:var(--gold); transition:opacity 0.3s ease; }
 
     /* ===== NAV ===== */
     .main-nav { display:flex; justify-content:center; flex-wrap:wrap; border-top:1px solid rgba(207,169,74,0.2); }
@@ -115,7 +135,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .section-dark { background:var(--navy); }
     .container { max-width:1100px; margin:0 auto; }
     .section-label { display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
-    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; line-height:1.2; margin-bottom:18px; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:700; line-height:1.2; margin-bottom:18px; color:var(--navy); }
     .section-title.light { color:#fff; } .section-title.dark { color:var(--navy); }
     .section-sub { font-size:1rem; line-height:1.75; color:var(--text-muted); max-width:640px; }
     .section-sub.light { color:rgba(255,255,255,0.7); }
@@ -211,7 +231,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .testi-initial { width:48px; height:48px; border-radius:50%; border:2px solid var(--gold); flex-shrink:0; background:var(--navy); display:flex; align-items:center; justify-content:center; color:var(--gold); font-weight:700; font-size:1rem; }
     .testi-info .name { font-weight:700; font-size:0.88rem; color:var(--navy); }
     .testi-info .company { font-size:0.77rem; color:var(--text-muted); }
-    .featured-testi { background:var(--navy); grid-column:span 2; }
+    .featured-testi { background:var(--navy); grid-column:1/-1; }
     .featured-testi .body { color:rgba(255,255,255,0.8); }
     .featured-testi .name { color:var(--gold) !important; }
     .featured-testi .company { color:rgba(255,255,255,0.5) !important; }
@@ -312,9 +332,70 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .brain-pulse { display:inline-block; animation:brainPulse 2.5s ease-in-out infinite; }
     @keyframes brainPulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.12);opacity:0.85;} }
+
+    /* ===== CONTACT ITEMS — hover scale + glow ===== */
+    .contact-item { border-radius:12px; padding:6px 12px; margin-left:-12px; transition:transform 0.28s ease, background 0.28s ease; }
+    .contact-item:hover { transform:translateX(9px); background:var(--gold-pale); }
+    .contact-item .ci-icon { transition:background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease; }
+    .contact-item:hover .ci-icon { background:var(--gold); color:var(--navy); box-shadow:0 0 22px rgba(207,169,74,0.55); transform:scale(1.18) rotate(-6deg); }
+    .contact-item .ci-text a { transition:color 0.2s ease, font-weight 0.2s ease; }
+    .contact-item:hover .ci-text a { color:var(--navy) !important; text-decoration:none !important; font-weight:600; }
+
+    /* ===== SOCIAL FOOTER — glow renforcé ===== */
+    .social-btn:hover { box-shadow:0 0 22px rgba(207,169,74,0.42); }
+
+    /* ===== STATS — pulse continu après compteur ===== */
+    @keyframes statPulse { 0%,100%{transform:scale(1); filter:none;} 50%{transform:scale(1.09); filter:drop-shadow(0 0 14px rgba(207,169,74,0.65));} }
+    .num.pulsing { animation:statPulse 3.2s ease-in-out infinite; display:inline-block; }
+
+    /* ===== SECTION TITLES — hover scale ===== */
+    .section-title { cursor:default; transition:transform 0.25s ease; }
+    .section-title:hover { transform:scale(1.025); }
+    .service-body h3 { transition:color 0.22s ease; }
+    .service-card:hover .service-body h3 { color:var(--gold); }
+    .mc-card-header h3 { transition:color 0.22s ease; }
+    .mc-card:hover .mc-card-header h3 { color:var(--gold-light); }
+    .offer-info h3 { transition:color 0.22s ease; }
+    .offer-step:hover .offer-info h3 { color:var(--gold); }
+    .offer-step.featured:hover .offer-info h3 { color:var(--gold-light); }
+
+    /* ===== COLOR BALANCE — accents dorés renforcés ===== */
+    .section-light { border-top:3px solid rgba(207,169,74,0.2); }
+    .section-label { background:rgba(207,169,74,0.12); padding:5px 14px; border-radius:50px; border:1px solid rgba(207,169,74,0.28); display:inline-block; }
+    .divider-gold { background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold)); }
+
+    /* ===== CERTIF TAGS hover ===== */
+    .certif-tag { transition:all 0.22s ease; cursor:default; }
+    .certif-tag:hover { background:var(--gold); color:var(--navy); transform:scale(1.08); border-color:var(--gold); }
+
+    /* ===== BUTTONS — micro-animation active ===== */
+    .btn-primary:active { transform:scale(0.97); }
+    .float-btn:hover { transform:translateY(-4px) scale(1.06) !important; }
+
+    /* ===== PAIN CARDS & SERVICE CARDS — gold shine hover ===== */
+    .pain-card { transition:transform var(--transition), border-color var(--transition), box-shadow var(--transition); }
+    .pain-card:hover { box-shadow:0 8px 40px rgba(207,169,74,0.2); }
+    .testi-card:hover { box-shadow:0 12px 44px rgba(0,0,0,0.12); }
+
+    /* ===== STATS SECTION — fond navy avec accent ===== */
+    .hero-stats { background:rgba(207,169,74,0.04); border-radius:14px; }
+    .hero-stat .num { text-shadow:0 0 30px rgba(207,169,74,0.25); }
+
+    /* ===== VALUE ITEMS hover ===== */
+    .value-item { transition:transform 0.22s ease; cursor:default; }
+    .value-item:hover { transform:translateX(6px); }
+    .value-item:hover .icon { background:var(--gold); color:var(--navy); transition:all 0.22s ease; }
+
+    /* ===== OFFER STEP — badge numéro gold ===== */
+    .offer-num { transition:background 0.25s ease, transform 0.25s ease; }
+    .offer-step:hover .offer-num { background:var(--gold); color:var(--navy); transform:scale(1.12); }
   </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P2KH5L74"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <!-- ===== HEADER ===== -->
 <header class="site-header">
@@ -1148,6 +1229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (current >= target) {
           current = target;
           clearInterval(timer);
+          el.classList.add('pulsing');
         }
         const val = Math.floor(current);
         const formatted = format === 'space'
@@ -1157,6 +1239,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       }, step);
     });
   }
+
+  /* ===== COMPACT HEADER ON SCROLL ===== */
+  (function() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 60) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }, { passive: true });
+  })();
 
   /* Init */
   showPage('accueil');
