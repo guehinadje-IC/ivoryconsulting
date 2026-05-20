@@ -33,8 +33,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; font-size:16px; }
-    body { font-family:'Inter',sans-serif; background:#F9F6F0; color:#1a1a2e; overflow-x:hidden; }
+    html { scroll-behavior:smooth; font-size:16px; overflow-x:hidden; }
+    body { font-family:'Inter',sans-serif; background:#F9F6F0; color:#1a1a2e; overflow-x:clip; }
 
     :root {
       --ivory:#F9F6F0; --navy:#0B1020; --navy-mid:#111827;
@@ -1240,15 +1240,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   }
 
-  /* ===== COMPACT HEADER ON SCROLL ===== */
+  /* ===== COMPACT HEADER ON SCROLL (hystérésis anti-oscillation) ===== */
   (function() {
     var header = document.querySelector('.site-header');
     if (!header) return;
+    var ticking = false;
     window.addEventListener('scroll', function() {
-      if (window.pageYOffset > 60) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+          // Seuils différents : activation à 90px, désactivation à 25px
+          if (scrollY > 90 && !header.classList.contains('scrolled')) {
+            header.classList.add('scrolled');
+          } else if (scrollY < 25 && header.classList.contains('scrolled')) {
+            header.classList.remove('scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     }, { passive: true });
   })();
