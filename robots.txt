@@ -1,10 +1,4 @@
-# robots.txt — Ivory Consulting
-# https://guehinadje-ic.github.io/ivoryconsulting/
-
 User-agent: *
 Allow: /
-
-# Fichiers de travail à exclure des crawlers
-Disallow: /index 2.html
 
 Sitemap: https://guehinadje-ic.github.io/ivoryconsulting/sitemap.xml
