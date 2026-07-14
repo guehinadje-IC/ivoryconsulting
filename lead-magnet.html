@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Téléchargez gratuitement les 5 réflexes managériaux qui épuisent votre équipe — guide neurosciences Ivory Consulting (V2)." />
+<meta name="description" content="Téléchargez gratuitement les 5 réflexes managériaux qui épuisent votre équipe — et les 5 alternatives neuroscientifiques. Guide Ivory Consulting, édition 2026." />
 <meta name="robots" content="index, follow" />
-<title>5 Réflexes Managériaux V2 — Ivory Consulting</title>
+<title>Les 5 Réflexes Managériaux qui épuisent votre équipe — Ivory Consulting</title>
 
-<meta property="og:title" content="5 Réflexes Managériaux qui épuisent votre équipe (V2)" />
-<meta property="og:description" content="Guide neurosciences — Ivory Consulting" />
+<meta property="og:title" content="Les 5 réflexes managériaux qui épuisent votre équipe" />
+<meta property="og:description" content="Guide neurosciences appliquées au management — Ivory Consulting, édition 2026" />
 <meta property="og:type" content="website" />
 
 <style>
@@ -83,12 +83,12 @@
     <p class="brand">Ivory Consulting</p>
     <h1>Les 5 réflexes managériaux qui <span class="accent">épuisent votre équipe</span></h1>
     <p class="lede">Guide neurosciences — applicable dès demain</p>
-    <span class="badge-v2">VERSION 2 · ÉDITION 2026</span>
+    <span class="badge-v2">ÉDITION 2026 · ENRICHIE</span>
   </header>
 
   <section class="card" id="formCard">
     <h2>Recevez le guide en 30 secondes</h2>
-    <p class="sub">Destiné aux dirigeants de PME 10–50 salariés.</p>
+    <p class="sub">Destiné aux dirigeants de TPE / PME 10–50 salariés.</p>
 
     <form id="leadForm" autocomplete="on" novalidate>
       <div>
@@ -122,21 +122,21 @@
         </select>
       </div>
 
-      <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide V2</button>
+      <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide</button>
 
       <ul class="checklist">
         <li>Format PDF — lisible en 12 min</li>
         <li>Basé sur les neurosciences appliquées</li>
-        <li>Édition V2 enrichie (autodiagnostic + cas réels)</li>
+        <li>Édition 2026 enrichie (chiffres France &amp; Guadeloupe, cas réels)</li>
       </ul>
     </form>
   </section>
 
   <section class="card success" id="successCard">
     <h2>🎉 Merci <span id="greetingName">!</span></h2>
-    <p>Ton guide V2 est prêt :</p>
+    <p>Ton guide est prêt :</p>
 
-    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le PDF V2</a>
+    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le guide (PDF)</a>
 
     <div class="ios-tip" id="iosTip">
       <strong>📱 Astuce iPhone/iPad :</strong><br />
@@ -152,7 +152,7 @@
 
     <div class="secondary-cta">
       <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 12px;">Envie d'aller plus loin ?</p>
-      <a id="calcomLink" href="#" target="_blank" rel="noopener">Réserver un atelier découverte (15 min, gratuit)</a>
+      <a id="calcomLink" href="#" target="_blank" rel="noopener">Réserver un audit découverte (15 min, gratuit)</a>
     </div>
   </section>
 
@@ -167,15 +167,14 @@
    CONFIGURATION — À ÉDITER
    ======================================================================== */
 const CONFIG = {
-  // Nom EXACT du PDF V2 à la racine de ton repo GitHub
+  // Nom EXACT du PDF à la racine du repo GitHub
   PDF_FILENAME: "lead-magnet.pdf",
 
-  // Lien cal.com (CTA secondaire)
-  CALCOM_URL: "https://cal.com/nadje-guehi/lead-magnet",
+  // Lien de réservation (CTA secondaire) — Calendly
+  BOOKING_URL: "https://calendly.com/guehinadje-ivoryconsulting/audit",
 
-  // ⚠️ FORMSPREE — endpoint à coller ici
+  // FORMSPREE — endpoint de capture des emails
   // Format : https://formspree.io/f/xxxxxxxx
-  // (créer un compte gratuit sur formspree.io → New Form → copier l'URL)
   FORMSPREE_ENDPOINT: "https://formspree.io/f/mgodryqp"
 };
 
@@ -272,14 +271,14 @@ form.addEventListener("submit", async function (e) {
   expectedFile.textContent = pdfUrl;
   const pdfExists = await checkPdfExists(pdfUrl);
 
-  const calcomUrl = CONFIG.CALCOM_URL
-    + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet_v2"
-    + "&prefill_name=" + encodeURIComponent(firstName)
-    + "&prefill_email=" + encodeURIComponent(email);
+  const bookingUrl = CONFIG.BOOKING_URL
+    + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet"
+    + "&name=" + encodeURIComponent(firstName)
+    + "&email=" + encodeURIComponent(email);
 
   greetingName.textContent = firstName + " !";
   pdfLink.href = pdfUrl;
-  calcomLink.href = calcomUrl;
+  calcomLink.href = bookingUrl;
 
   formCard.style.display = "none";
   successCard.classList.add("visible");
