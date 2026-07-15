@@ -1,3 +1,7 @@
+https://raw.githubusercontent.com/guehinadje-IC/ivoryconsulting/main/landing.html
+→ https://raw.githubusercontent.com/guehinadje-IC/ivoryconsulting/main/landing.html
+Content-Type: text/plain; charset=utf-8
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -985,7 +989,7 @@
           </button>
         </form>
         <span class="lm-alt">
-          Ou <a href="lead-magnet.pdf" download="Guide_QVCT_IvoryConsulting.pdf">téléchargement direct PDF</a> — sans inscription
+          Ou <a href="lead-magnet.html">recevez le guide par email en 30 secondes</a>
         </span>
       </div>
     </div>
@@ -1157,9 +1161,17 @@
 
   /* ── Mailchimp fallback → direct download ── */
   const lmForm = document.getElementById('lm-form');
-  if (lmForm && lmForm.action.includes('VOTRE_URL_MAILCHIMP_ICI')) {
+  if (lmForm) {
     lmForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      var _lmEmail = (lmForm.querySelector('input[type="email"]') || {}).value || '';
+      if (_lmEmail) {
+        fetch('https://formspree.io/f/mgodryqp', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: _lmEmail.trim(), source: 'landing.html', submitted_at: new Date().toISOString() })
+        }).catch(function(){});
+      }
       window.open('lead-magnet.pdf', '_blank');
     });
   }
