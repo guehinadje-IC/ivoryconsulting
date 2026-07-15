@@ -269,7 +269,6 @@ form.addEventListener("submit", async function (e) {
 
   const pdfUrl = CONFIG.PDF_FILENAME;
   expectedFile.textContent = pdfUrl;
-  const pdfExists = await checkPdfExists(pdfUrl);
 
   const bookingUrl = CONFIG.BOOKING_URL
     + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet"
@@ -284,27 +283,32 @@ form.addEventListener("submit", async function (e) {
   successCard.classList.add("visible");
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  if (!pdfExists) {
-    errorBox.classList.add("visible");
-    pdfLink.style.display = "none";
-    return;
-  }
+  // Le lien de téléchargement est TOUJOURS affiché : pas de pré-check HEAD
+  // (GitHub Pages renvoie parfois un 503 transitoire sur HEAD, ce qui masquait
+  // le lien à tort). Le fichier est servi de façon fiable en GET.
+  pdfLink.style.display = "";
 
   if (isIOS()) {
+    // iOS ignore l'attribut download : on ouvre le PDF dans un nouvel onglet.
     pdfLink.removeAttribute("download");
     pdfLink.setAttribute("target", "_blank");
     iosTip.classList.add("visible");
   } else {
     pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
+    pdfLink.setAttribute("target", "_blank");
+    // Tentative de téléchargement automatique (bonus ; le bouton reste le chemin fiable).
     setTimeout(() => {
-      const a = document.createElement("a");
-      a.href = pdfUrl;
-      a.download = CONFIG.PDF_FILENAME;
-      a.target = "_blank";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }, 500);
+      try {
+        const a = document.createElement("a");
+        a.href = pdfUrl;
+        a.download = CONFIG.PDF_FILENAME;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch (e) { /* le bouton visible prend le relais */ }
+    }, 400);
   }
 });
 </script>
