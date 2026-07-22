@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://guehinadje-ic.github.io/ivoryconsulting/sitemap.xml
+Sitemap: https://ivoryconsulting.fr/sitemap.xml
