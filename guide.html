@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Téléchargez gratuitement les 5 réflexes managériaux qui épuisent votre équipe, et les 5 alternatives neuroscientifiques. Guide Ivory Consulting, édition 2026." />
+<meta name="robots" content="index, follow" />
+<title>Guide gratuit : 5 réflexes managériaux à corriger</title>
+<link rel="canonical" href="https://ivoryconsulting.fr/guide.html" />
+
+<meta property="og:url" content="https://ivoryconsulting.fr/guide.html" />
+<meta property="og:title" content="Les 5 réflexes managériaux qui épuisent votre équipe" />
+<meta property="og:description" content="Guide neurosciences appliquées au management, Ivory Consulting, édition 2026" />
+<meta property="og:type" content="website" />
+
+<style>
+  :root {
+    --navy: #2C1A47;
+    --gold: #C79B3D;
+    --ivory: #F9F8F5;
+    --ink: #1a1033;
+    --muted: #6b5e85;
+    --error: #b0284a;
+    --success: #2d8a4f;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: var(--ink); background: var(--ivory); line-height: 1.55; }
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; width: 100%; }
+
+  header.hero { text-align: center; padding-top: 8px; }
+  header.hero .brand { font-family: Georgia, 'Times New Roman', serif; font-size: 1rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 24px; }
+  header.hero h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; color: var(--navy); font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.15; margin-bottom: 18px; }
+  header.hero h1 .accent { color: var(--gold); }
+  header.hero p.lede { font-size: clamp(1rem, 2.3vw, 1.15rem); color: var(--muted); margin-bottom: 8px; }
+  header.hero .badge-v2 { display: inline-block; background: var(--gold); color: var(--navy); padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; margin-top: 8px; }
+
+  .card { background: white; border-radius: 14px; padding: 28px 24px; margin-top: 36px; box-shadow: 0 6px 24px rgba(44, 26, 71, 0.08); border: 1px solid rgba(199, 155, 61, 0.15); }
+  .card h2 { font-family: Georgia, 'Times New Roman', serif; color: var(--navy); font-size: 1.35rem; margin-bottom: 6px; }
+  .card p.sub { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; }
+
+  form { display: flex; flex-direction: column; gap: 14px; }
+  label { font-size: 0.85rem; color: var(--navy); font-weight: 600; letter-spacing: 0.02em; }
+  input[type="text"], input[type="email"], select { width: 100%; padding: 12px 14px; border: 1.5px solid #e4dfd3; border-radius: 8px; font-size: 1rem; background: white; color: var(--ink); font-family: inherit; transition: border-color 0.15s; }
+  input:focus, select:focus { outline: none; border-color: var(--gold); }
+
+  button.cta { background: var(--navy); color: var(--ivory); border: none; padding: 14px 20px; font-size: 1.05rem; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 6px; transition: background 0.15s, transform 0.1s; font-family: inherit; }
+  button.cta:hover { background: #3a2560; }
+  button.cta:active { transform: scale(0.98); }
+  button.cta:disabled { opacity: 0.6; cursor: wait; }
+
+  .checklist { margin: 20px 0 4px; padding: 0; list-style: none; }
+  .checklist li { padding: 6px 0 6px 28px; position: relative; font-size: 0.95rem; color: var(--ink); }
+  .checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+
+  .secondary-cta { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(199, 155, 61, 0.2); text-align: center; }
+  .secondary-cta a { color: var(--navy); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+  .secondary-cta a:hover { color: var(--gold); }
+
+  .success { display: none; text-align: center; padding: 10px 0; }
+  .success.visible { display: block; }
+  .success h2 { color: var(--navy); font-size: 1.5rem; margin-bottom: 14px; }
+  .success p { color: var(--ink); margin-bottom: 16px; }
+  .success .big-button { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1.1rem; margin: 10px 4px; }
+  .success .big-button:hover { background: #b58a2d; color: var(--ivory); }
+
+  .ios-tip { margin-top: 24px; padding: 16px; background: #faf7ed; border: 1px solid var(--gold); border-radius: 10px; text-align: left; font-size: 0.9rem; display: none; }
+  .ios-tip.visible { display: block; }
+  .ios-tip strong { color: var(--navy); }
+
+  .error-box { display: none; margin-top: 20px; padding: 14px; background: #fdecef; border: 1px solid var(--error); border-radius: 10px; color: var(--error); font-size: 0.9rem; text-align: left; }
+  .error-box.visible { display: block; }
+  .error-box code { background: white; padding: 2px 6px; border-radius: 4px; font-family: Consolas, monospace; }
+
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.85rem; margin-top: auto; }
+  footer a { color: var(--navy); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header class="hero">
+    <p class="brand">Ivory Consulting</p>
+    <h1>Les 5 réflexes managériaux qui <span class="accent">épuisent votre équipe</span></h1>
+    <p class="lede">Ce que les neurosciences disent de cinq réflexes d'encadrement très répandus, et par quoi les remplacer.</p>
+    <span class="badge-v2">ÉDITION 2026 · ENRICHIE</span>
+  </header>
+
+  <section class="card" id="formCard">
+    <h2>Recevez le guide en 30 secondes</h2>
+    <p class="sub">Destiné aux dirigeants et managers de TPE / PME. Guide de management, pas un document de santé au travail.</p>
+
+    <form id="leadForm" autocomplete="on" novalidate>
+      <div>
+        <label for="firstName">Prénom</label>
+        <input type="text" id="firstName" name="first_name" required placeholder="Nadjé" autocomplete="given-name" />
+      </div>
+      <div>
+        <label for="email">Email professionnel</label>
+        <input type="email" id="email" name="email" required placeholder="vous@votre-entreprise.fr" autocomplete="email" />
+      </div>
+      <div>
+        <label for="sector">Secteur</label>
+        <select id="sector" name="sector">
+          <option value="">Choisir</option>
+          <option value="hotellerie-restauration">Hôtellerie / Restauration</option>
+          <option value="commerce">Commerce / Retail</option>
+          <option value="services">Services / BtoB</option>
+          <option value="btp">BTP / Construction</option>
+          <option value="sante">Santé / Médical</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div>
+        <label for="teamSize">Taille de l'équipe</label>
+        <select id="teamSize" name="team_size">
+          <option value="">Choisir</option>
+          <option value="1-9">1 à 9 salariés</option>
+          <option value="10-25">10 à 25 salariés</option>
+          <option value="25-50">25 à 50 salariés</option>
+          <option value="50+">50+ salariés</option>
+        </select>
+      </div>
+
+      <button type="submit" class="cta" id="submitBtn">📥 Recevoir le guide</button>
+
+      <ul class="checklist">
+        <li>Format PDF, lisible en 12 min</li>
+        <li>Appuyé sur les neurosciences appliquées au management</li>
+        <li>Édition 2026 enrichie (chiffres France &amp; Guadeloupe, cas réels)</li>
+      </ul>
+    </form>
+  </section>
+
+  <section class="card success" id="successCard">
+    <h2>🎉 Merci <span id="greetingName">!</span></h2>
+    <p>Ton guide est prêt :</p>
+
+    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le guide (PDF)</a>
+
+    <div class="ios-tip" id="iosTip">
+      <strong>📱 Astuce iPhone/iPad :</strong><br />
+      Le PDF s'ouvre dans Safari. Pour l'enregistrer :<br />
+      1. Appuie sur l'icône <strong>⬆️ Partager</strong> (en bas)<br />
+      2. Choisis <strong>« Enregistrer dans Fichiers »</strong> ou <strong>« Livres »</strong>
+    </div>
+
+    <div class="error-box" id="errorBox">
+      ⚠️ <strong>PDF introuvable.</strong> Fichier attendu : <code id="expectedFile"></code><br />
+      Vérifie qu'il est bien à la racine de ton repo GitHub.
+    </div>
+
+    <div class="secondary-cta">
+      <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 12px;">Envie d'aller plus loin ?</p>
+      <a id="calcomLink" href="https://calendly.com/guehinadje-ivoryconsulting/audit" target="_blank" rel="noopener">Réserver un audit découverte (15 min, gratuit)</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p><a href="index.html" style="color:inherit;">Retour au site Ivory Consulting</a></p>
+  <p>© 2026 Ivory Consulting · <a href="mailto:guehinadje@ivoryconsulting.fr">guehinadje@ivoryconsulting.fr</a></p>
+</footer>
+
+<script>
+/* ========================================================================
+   CONFIGURATION, À ÉDITER
+   ======================================================================== */
+const CONFIG = {
+  // Nom EXACT du PDF à la racine du repo GitHub
+  PDF_FILENAME: "lead-magnet.pdf",
+
+  // Lien de réservation (CTA secondaire), Calendly
+  BOOKING_URL: "https://calendly.com/guehinadje-ivoryconsulting/audit",
+
+  // FORMSPREE, endpoint de capture des emails
+  // Format : https://formspree.io/f/xxxxxxxx
+  FORMSPREE_ENDPOINT: "https://formspree.io/f/mgodryqp"
+};
+
+/* ========================================================================
+   DÉTECTION iOS
+   ======================================================================== */
+function isIOS() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return true;
+  if (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua)) return true;
+  return false;
+}
+
+/* ========================================================================
+   UTM
+   ======================================================================== */
+function getUTMParams() {
+  const params = new URLSearchParams(window.location.search);
+  const utm = {};
+  ["utm_source","utm_medium","utm_campaign","utm_content","utm_term"].forEach(key => {
+    const v = params.get(key);
+    if (v) utm[key] = v;
+  });
+  return utm;
+}
+
+/* ========================================================================
+   VÉRIFICATION PDF
+   ======================================================================== */
+async function checkPdfExists(url) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    return res.ok;
+  } catch (e) { return false; }
+}
+
+/* ========================================================================
+   HANDLER FORMULAIRE
+   ======================================================================== */
+const form = document.getElementById("leadForm");
+const formCard = document.getElementById("formCard");
+const successCard = document.getElementById("successCard");
+const pdfLink = document.getElementById("pdfLink");
+const calcomLink = document.getElementById("calcomLink");
+const iosTip = document.getElementById("iosTip");
+const greetingName = document.getElementById("greetingName");
+const submitBtn = document.getElementById("submitBtn");
+const errorBox = document.getElementById("errorBox");
+const expectedFile = document.getElementById("expectedFile");
+
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById("firstName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const sector = document.getElementById("sector").value;
+  const teamSize = document.getElementById("teamSize").value;
+
+  if (!firstName || !email) {
+    alert("Merci de renseigner ton prénom et ton email.");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Envoi en cours…";
+
+  const utm = getUTMParams();
+
+  // ENVOI VERS FORMSPREE
+  if (CONFIG.FORMSPREE_ENDPOINT) {
+    try {
+      await fetch(CONFIG.FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Accept": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName,
+          email: email,
+          sector: sector,
+          team_size: teamSize,
+          ...utm,
+          page_url: window.location.href,
+          submitted_at: new Date().toISOString()
+        })
+      });
+      console.log("✅ Lead envoyé à Formspree");
+    } catch (err) {
+      console.warn("Formspree error:", err);
+    }
+  } else {
+    console.warn("⚠️ FORMSPREE_ENDPOINT non configuré, l'email n'est pas stocké.");
+  }
+
+  const pdfUrl = CONFIG.PDF_FILENAME;
+  expectedFile.textContent = pdfUrl;
+
+  const bookingUrl = CONFIG.BOOKING_URL
+    + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet"
+    + "&name=" + encodeURIComponent(firstName)
+    + "&email=" + encodeURIComponent(email);
+
+  greetingName.textContent = firstName + " !";
+  pdfLink.href = pdfUrl;
+  calcomLink.href = bookingUrl;
+
+  formCard.style.display = "none";
+  successCard.classList.add("visible");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // Le lien de téléchargement est TOUJOURS affiché : pas de pré-check HEAD
+  // (GitHub Pages renvoie parfois un 503 transitoire sur HEAD, ce qui masquait
+  // le lien à tort). Le fichier est servi de façon fiable en GET.
+  pdfLink.style.display = "";
+
+  if (isIOS()) {
+    // iOS ignore l'attribut download : on ouvre le PDF dans un nouvel onglet.
+    pdfLink.removeAttribute("download");
+    pdfLink.setAttribute("target", "_blank");
+    iosTip.classList.add("visible");
+  } else {
+    pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
+    pdfLink.setAttribute("target", "_blank");
+    // Tentative de téléchargement automatique (bonus ; le bouton reste le chemin fiable).
+    setTimeout(() => {
+      try {
+        const a = document.createElement("a");
+        a.href = pdfUrl;
+        a.download = CONFIG.PDF_FILENAME;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } catch (e) { /* le bouton visible prend le relais */ }
+    }, 400);
+  }
+});
+</script>
+
+</body>
+</html>
