@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /_parts/
+Disallow: /_originaux/
 
 Sitemap: https://ivoryconsulting.fr/sitemap.xml
