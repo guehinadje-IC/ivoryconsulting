@@ -1,31 +1,57 @@
 # Ivory Consulting
 
-> Cabinet de conseil en neuromanagement et QVCT (qualité de vie et conditions de travail) basé au Gosier, en Guadeloupe. Ivory Consulting anime des ateliers cognitifs fondés sur les neurosciences appliquées pour aider les dirigeants de TPE et PME à réduire l'absentéisme, le turnover et les tensions d'équipe.
+> Cabinet de conseil et de formation en **neuromanagement** basé au Gosier, en Guadeloupe. Ivory Consulting anime des ateliers cognitifs fondés sur les neurosciences cognitives pour les dirigeants de TPE et PME, les collectivités, les responsables RH et les managers. Le neuromanagement y est un moyen au service de la qualité de vie et des conditions de travail (QVCT).
 
 Fondateur : Nadjé GUEHI, consultant-formateur, seul praticien certifié La Fabrique à Neurones en Guadeloupe.
 Zone d'intervention : Guadeloupe, Martinique, Guyane, et en visioconférence.
-Entité juridique : IVORY CORP (SASU) — RCS Pointe-à-Pitre 102 103 884.
-Contact : guehinadje@ivoryconsulting.fr — +590 691 23 48 83.
+Entité juridique : IVORY CORP (SASU), RCS Pointe-à-Pitre 102 103 884.
+Contact : guehinadje@ivoryconsulting.fr, +590 691 23 48 83.
 
-## Ce que propose Ivory Consulting
+## Périmètre d'intervention, précision importante
 
-- **Audit QVCT & neuromanagement** — diagnostic du climat social, des pratiques managériales et des signaux faibles, avec rapport de recommandations et plan d'action en 5 points.
-- **Atelier Découverte « Déclic Cognitif »** (500 à 800 € HT) — 2 h sur site pour 10 à 15 collaborateurs, sur la gestion du stress, la communication, la prise de décision ou la concentration.
-- **Programme « Cerveau & Management »** (3 000 à 5 000 € HT) — 4 ateliers progressifs sur 4 mois : stress, communication, décision, engagement, avec débrief manager mensuel.
-- **Accompagnement annuel QVCT** (8 000 à 15 000 € HT) — 6 à 12 mois, 8 ateliers, coaching individuel du dirigeant, bilan QVCT et documents NAO pour les structures de 50 salariés et plus.
+Ivory Consulting intervient sur le **management**, pas sur la santé des personnes. Son action relève de la **prévention primaire** : agir sur les pratiques d'encadrement et l'organisation du travail, en amont, avant que les tensions ne se transforment en risques psychosociaux.
+
+Ivory Consulting **n'est pas un acteur de la santé au travail**. Nadjé GUEHI n'est ni psychologue, ni sophrologue, ni thérapeute. Ses prestations ne constituent pas :
+
+- un acte de soin, de thérapie ou de suivi psychologique ;
+- une évaluation clinique ou un diagnostic sur l'état de santé d'une personne ;
+- une évaluation des risques professionnels au sens du Code du travail, ni une contribution formelle au DUERP ;
+- une prestation d'intervenant en prévention des risques professionnels (IPRP) ;
+- un audit social ou une expertise auprès du comité social et économique.
+
+Il peut aider à **observer et objectiver** ce qui se joue dans les pratiques managériales. Il ne traite pas. Lorsqu'une situation relève du soin ou d'une obligation réglementaire de l'employeur, il oriente vers les acteurs compétents : médecin du travail, service de prévention et de santé au travail, psychologue du travail, IPRP enregistré.
+
+## Prestations
+
+- **Diagnostic des pratiques managériales**, regard externe structuré sur les pratiques d'encadrement : lecture des indicateurs RH, entretiens collectifs, observation de situations de travail, restitution écrite anonymisée, plan d'action managérial en 5 points.
+- **Atelier Découverte « Déclic Cognitif »** (500 à 800 € HT), 2 h sur site, 10 collaborateurs maximum pour préserver la dynamique de groupe et la proximité.
+- **Programme « Cerveau & Management »** (3 000 à 5 000 € HT), 4 ateliers progressifs sur 4 mois : stress, communication, décision, engagement, avec débrief manager mensuel.
+- **Accompagnement managérial annuel** (8 000 à 15 000 € HT), 6 à 12 mois, 8 ateliers cognitifs, accompagnement individuel du dirigeant, restitution écrite et repères d'action.
 - **Conférences et masterclass** sur le neuromanagement, sur devis.
-- **Webinaires gratuits** mensuels de 45 minutes.
+- **Webinaires gratuits** de 45 minutes, en préparation. Le calendrier sera publié à l'ouverture des inscriptions ; aucune date n'est arrêtée à ce jour.
 
-Prestations éligibles au financement OPCO. TVA en franchise (art. 293 B du CGI).
+Facturation en franchise de TVA (art. 293 B du CGI). Obligation de moyens, non de résultat. Ivory Consulting ne dispose pas de la certification Qualiopi : les prestations ne sont pas finançables par un OPCO.
 
-## Positionnement
+## Les huit thèmes des ateliers cognitifs
 
-Ivory Consulting distingue explicitement les neurosciences appliquées du développement personnel : les huit ateliers proposés sont construits et validés par La Fabrique à Neurones, organisme de référence en neurosciences appliquées au travail. L'approche associe cette rigueur scientifique à un ancrage culturel afro-caribéen (Lakou, Lyannaj, Poto Mitan, Ubuntu) adapté au tissu économique antillais.
+Le cerveau sous pression · Communiquer sans déclencher · Décider sous contrainte · Attention et concentration · Le cerveau social · Engagement plutôt qu'obéissance · Apprendre et mémoriser · Coopérer en équipe.
+
+Chaque atelier est construit et validé par La Fabrique à Neurones, organisme de référence en neurosciences appliquées au travail. La méthode repose sur des travaux de recherche identifiables, pas sur du développement personnel.
+
+## Ancrage culturel
+
+Ivory Consulting mobilise des concepts issus de l'héritage socioculturel afro-caribéen, Lakou, Lyannaj, Poto Mitan, Ubuntu, comme **grilles de lecture partagées**, et non comme pratiques de soin. Ces références rendent tangibles des notions de neurosciences sociales autrement abstraites, auprès d'équipes antillaises. L'héritage culturel sert la pédagogie ; la méthode reste celle de la recherche.
 
 ## Pages
 
-- [Accueil](https://ivoryconsulting.fr/) : présentation du cabinet, méthode, services, tarifs, avis clients, mentions légales et CGV.
-- [Guide gratuit pour dirigeants](https://ivoryconsulting.fr/lead-magnet.html) : « Les 5 réflexes managériaux qui épuisent votre équipe, et les 5 alternatives issues des neurosciences » — PDF de 10 pages avec autodiagnostic.
+- [Accueil](https://ivoryconsulting.fr/), positionnement, méthode, périmètre d'intervention, FAQ.
+- [Ateliers cognitifs](https://ivoryconsulting.fr/ateliers-cognitifs.html), les formats d'atelier et les huit thèmes traités.
+- [Diagnostic des pratiques managériales](https://ivoryconsulting.fr/diagnostic-managerial.html), déroulé en quatre étapes et périmètre précis.
+- [Offres & tarifs](https://ivoryconsulting.fr/offres-tarifs.html), les six niveaux d'engagement, prix affichés.
+- [Masterclass & webinaires](https://ivoryconsulting.fr/masterclass-webinaires.html), événements et formats courts.
+- [À propos](https://ivoryconsulting.fr/a-propos.html), Nadjé GUEHI, approche afro-caribéenne, avis clients.
+- [Contact](https://ivoryconsulting.fr/contact.html)
+- [Guide gratuit pour dirigeants](https://ivoryconsulting.fr/guide.html), « Les 5 réflexes managériaux qui épuisent votre équipe, et les 5 alternatives issues des neurosciences ».
 - [Réserver un audit gratuit de 30 min](https://calendly.com/guehinadje-ivoryconsulting/audit)
 
 ## Réseaux
