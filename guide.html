@@ -65,6 +65,10 @@
   .success .big-button { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1.1rem; margin: 10px 4px; }
   .success .big-button:hover { background: #b58a2d; color: var(--ivory); }
 
+  .dl-alt { display: block; margin-top: 6px; font-size: 0.92rem; color: var(--muted); }
+  .dl-alt a { color: var(--navy); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--gold); }
+  .dl-alt a:hover { color: var(--gold); }
+
   .ios-tip { margin-top: 24px; padding: 16px; background: #faf7ed; border: 1px solid var(--gold); border-radius: 10px; text-align: left; font-size: 0.9rem; display: none; }
   .ios-tip.visible { display: block; }
   .ios-tip strong { color: var(--navy); }
@@ -138,7 +142,11 @@
     <h2>🎉 Merci <span id="greetingName">!</span></h2>
     <p>Ton guide est prêt :</p>
 
-    <a id="pdfLink" class="big-button" href="#" target="_blank" rel="noopener">📄 Ouvrir le guide (PDF)</a>
+    <a id="pdfLink" class="big-button" href="lead-magnet.pdf" target="_blank" rel="noopener">📄 Ouvrir le guide (PDF)</a>
+
+    <span class="dl-alt">
+      Ou <a id="pdfDownload" href="lead-magnet.pdf" download="Guide-5-reflexes-manageriaux-Ivory-Consulting.pdf">enregistrer le fichier sur mon appareil</a>
+    </span>
 
     <div class="ios-tip" id="iosTip">
       <strong>📱 Astuce iPhone/iPad :</strong><br />
@@ -170,8 +178,13 @@
    CONFIGURATION, À ÉDITER
    ======================================================================== */
 const CONFIG = {
-  // Nom EXACT du PDF à la racine du repo GitHub
+  // Nom EXACT du PDF, à la racine du repo (même dossier que cette page).
+  // Chemin RELATIF volontairement : fonctionne aussi bien sur
+  // ivoryconsulting.fr que sur l'URL github.io de secours.
   PDF_FILENAME: "lead-magnet.pdf",
+
+  // Nom du fichier proposé au visiteur lors de l'enregistrement
+  PDF_SAVE_AS: "Guide-5-reflexes-manageriaux-Ivory-Consulting.pdf",
 
   // Lien de réservation (CTA secondaire), Calendly
   BOOKING_URL: "https://calendly.com/guehinadje-ivoryconsulting/audit",
@@ -205,28 +218,17 @@ function getUTMParams() {
 }
 
 /* ========================================================================
-   VÉRIFICATION PDF
-   ======================================================================== */
-async function checkPdfExists(url) {
-  try {
-    const res = await fetch(url, { method: "HEAD" });
-    return res.ok;
-  } catch (e) { return false; }
-}
-
-/* ========================================================================
    HANDLER FORMULAIRE
    ======================================================================== */
 const form = document.getElementById("leadForm");
 const formCard = document.getElementById("formCard");
 const successCard = document.getElementById("successCard");
 const pdfLink = document.getElementById("pdfLink");
+const pdfDownload = document.getElementById("pdfDownload");
 const calcomLink = document.getElementById("calcomLink");
 const iosTip = document.getElementById("iosTip");
 const greetingName = document.getElementById("greetingName");
 const submitBtn = document.getElementById("submitBtn");
-const errorBox = document.getElementById("errorBox");
-const expectedFile = document.getElementById("expectedFile");
 
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -271,7 +273,6 @@ form.addEventListener("submit", async function (e) {
   }
 
   const pdfUrl = CONFIG.PDF_FILENAME;
-  expectedFile.textContent = pdfUrl;
 
   const bookingUrl = CONFIG.BOOKING_URL
     + "?utm_source=landing_page&utm_medium=post_capture&utm_campaign=lead_magnet"
@@ -279,39 +280,38 @@ form.addEventListener("submit", async function (e) {
     + "&email=" + encodeURIComponent(email);
 
   greetingName.textContent = firstName + " !";
-  pdfLink.href = pdfUrl;
   calcomLink.href = bookingUrl;
+
+  /* ----------------------------------------------------------------------
+     LIVRAISON DU PDF
+     Deux chemins complémentaires, tous deux déclenchés par un clic humain :
+
+     1. Bouton principal  -> OUVRE le PDF dans un nouvel onglet.
+        Pas d'attribut "download" : le visiteur VOIT immédiatement le guide.
+        C'est le comportement le plus fiable (desktop, Android, iOS).
+
+     2. Lien secondaire   -> ENREGISTRE le fichier (attribut "download").
+
+     Aucun téléchargement automatique n'est déclenché : les navigateurs
+     bloquent les téléchargements multiples ou non sollicités, ce qui
+     neutralisait ensuite le clic manuel de l'utilisateur.
+  ---------------------------------------------------------------------- */
+  pdfLink.href = pdfUrl;
+  pdfLink.setAttribute("target", "_blank");
+  pdfLink.setAttribute("rel", "noopener");
+  pdfLink.removeAttribute("download");
+  pdfLink.style.display = "";
+
+  pdfDownload.href = pdfUrl;
+  pdfDownload.setAttribute("download", CONFIG.PDF_SAVE_AS);
 
   formCard.style.display = "none";
   successCard.classList.add("visible");
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Le lien de téléchargement est TOUJOURS affiché : pas de pré-check HEAD
-  // (GitHub Pages renvoie parfois un 503 transitoire sur HEAD, ce qui masquait
-  // le lien à tort). Le fichier est servi de façon fiable en GET.
-  pdfLink.style.display = "";
-
   if (isIOS()) {
-    // iOS ignore l'attribut download : on ouvre le PDF dans un nouvel onglet.
-    pdfLink.removeAttribute("download");
-    pdfLink.setAttribute("target", "_blank");
+    // iOS ignore l'attribut "download" : on guide l'utilisateur.
     iosTip.classList.add("visible");
-  } else {
-    pdfLink.setAttribute("download", CONFIG.PDF_FILENAME);
-    pdfLink.setAttribute("target", "_blank");
-    // Tentative de téléchargement automatique (bonus ; le bouton reste le chemin fiable).
-    setTimeout(() => {
-      try {
-        const a = document.createElement("a");
-        a.href = pdfUrl;
-        a.download = CONFIG.PDF_FILENAME;
-        a.target = "_blank";
-        a.rel = "noopener";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (e) { /* le bouton visible prend le relais */ }
-    }, 400);
   }
 });
 </script>
