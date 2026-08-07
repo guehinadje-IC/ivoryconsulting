@@ -527,6 +527,12 @@
     .temoi-hero p.chapeau { color:rgba(255,255,255,0.78); font-size:clamp(1rem,2.5vw,1.1rem);
                             line-height:1.7; max-width:600px; margin:0 auto; }
 
+    /* Bouton avis dans le hero : visible d'emblée, mais graphiquement
+       subordonné au titre pour ne pas court-circuiter la lecture des retours. */
+    .temoi-hero-cta { margin-top:32px; }
+    .temoi-hero-cta .btn-google { min-height:54px; padding:15px 30px; font-size:0.97rem; }
+    .temoi-hero-cta .mention { display:block; margin-top:14px; font-size:0.81rem; color:rgba(255,255,255,0.5); }
+
     .temoi-cadre { max-width:760px; margin:0 auto 8px; color:var(--text-muted);
                    font-size:0.93rem; line-height:1.72; text-align:center; }
     .temoi-cadre em { color:var(--text-dark); font-style:normal; font-weight:600; }
@@ -619,6 +625,15 @@
         Des expériences vécues, des prises de conscience et des changements qui continuent
         après mes interventions.
       </p>
+
+      <div class="temoi-hero-cta">
+        <a class="btn-google" href="https://g.page/r/Cd-YkuMmZgU6EBM/review" target="_blank" rel="noopener"
+           onclick="icTrack('click_google_review')"
+           aria-label="Laisser un avis sur ma fiche Google, ouvre un nouvel onglet">
+          <i class="fab fa-google" aria-hidden="true"></i> Laisser un avis Google
+        </a>
+        <span class="mention">Vous avez participé à un atelier ou une formation&nbsp;? Deux minutes suffisent.</span>
+      </div>
     </div>
   </section>
 
