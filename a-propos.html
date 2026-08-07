@@ -29,9 +29,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all';this.onload=null"/>
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/></noscript>
   <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; font-size:16px; overflow-x:hidden; }
@@ -123,7 +123,6 @@
     .hero-bg { position:absolute; inset:0; background-image:url('img/atelier-declic-cognitif.webp'); background-size:cover; background-position:center 20%; opacity:0.32; transform:scale(1.06); animation:heroZoom 18s ease-in-out infinite alternate; }
     @keyframes heroZoom { from{transform:scale(1.02);} to{transform:scale(1.1);} }
     .hero-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(11,16,32,0.96) 0%,rgba(11,16,32,0.65) 55%,rgba(207,169,74,0.08) 100%); }
-    #hero-particles { position:absolute; inset:0; z-index:1; pointer-events:none; }
     .hero-watermark { position:absolute; bottom:24px; right:32px; z-index:1; width:120px; opacity:0.08; pointer-events:none; }
     .hero-content { position:relative; z-index:2; max-width:820px; margin:0 auto; padding:60px 30px; text-align:center; }
     .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(207,169,74,0.15); border:1px solid rgba(207,169,74,0.35); color:var(--gold); font-size:0.7rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; padding:6px 18px; border-radius:100px; margin-bottom:26px; backdrop-filter:blur(4px); }
@@ -479,12 +478,45 @@
       .kpi-head { display:none; }
       .kpi-row div:last-child { padding-top:4px; }
     }
+  
+    /* ═══════════ Allègement du rendu (juillet 2026) ═══════════
+       Les effets ci-dessous occupaient le processeur en continu, y compris
+       quand la page était immobile. Ils sont désormais déclenchés au survol
+       ou réservés aux écrans qui peuvent les absorber. */
+
+    /* Le flou d'arrière-plan est l'un des effets les plus coûteux du navigateur. */
+    .hero-badge, .hero-stats { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
+    .hero-badge { background:rgba(207,169,74,0.18); }
+    .hero-stats { background:rgba(207,169,74,0.07); }
+
+    /* Le dégradé animé du texte doré repeignait les titres en permanence. */
+    .gold-shine { animation:none; }
+    @media (hover:hover) and (pointer:fine) {
+      .gold-text:hover { animation:goldShine 2.6s linear infinite; }
+    }
+
+    /* Rotation du logo, pulsations et halo : réduits, et coupés sur tactile. */
+    .logo-3d-inner { animation-duration:30s; }
+    @media (max-width:900px), (hover:none) {
+      .logo-3d-inner, .hero-bg, .fan-seal, .float-btn { animation:none !important; }
+      [class*="pulse"], [class*="Pulse"] { animation:none !important; }
+      .tilt { transform:none !important; }
+    }
+
+    /* Les navigateurs peuvent ignorer le rendu des sections hors écran. */
+    .site-header, footer { will-change:auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation:none !important; transition:none !important; }
+    }
+  
+    /* Trois pulsations résiduelles repeignaient en boucle une ombre ou un filtre.
+       Elles se jouent désormais trois fois puis s'arrêtent : l'effet d'appel est
+       conservé, le processeur est libéré. */
+    .float-btn { animation-iteration-count:3; }
+    .pulsing   { animation-iteration-count:3; }
+    .brain-pulse { animation-iteration-count:3; }
   </style>
-  <style id="filet-securite">
-    /* Sans JavaScript, les éléments animés resteraient invisibles : on les révèle. */
-    html.aos-secours [data-aos] { opacity:1 !important; transform:none !important; transition:none !important; }
-  </style>
-  <noscript><style>[data-aos]{opacity:1 !important;transform:none !important;}</style></noscript>
 </head>
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu</a>
@@ -516,7 +548,7 @@
   <section class="section section-light" style="padding-top:56px;">
     <div class="container">
       <div class="about-grid">
-        <div data-aos="fade-right">
+        <div>
           <div class="about-img-wrap tilt">
             <img src="img/nadje-guehi-consultant-neuromanagement.webp"
                  alt="Nadjé GUEHI, fondateur d'Ivory Consulting, consultant en neuromanagement en Guadeloupe"
@@ -527,7 +559,7 @@
             </div>
           </div>
         </div>
-        <div data-aos="fade-left">
+        <div>
           <span class="section-label">À propos</span>
           <h1 class="section-title dark">Je transforme le management par les <span class="gold-text">neurosciences</span></h1>
           <div class="divider-gold"></div>
@@ -560,25 +592,25 @@
         <p class="section-sub light" style="max-width:680px; margin:0 auto;">Les neurosciences confirment ce que nos cultures savent depuis toujours : le cerveau humain est fait pour le lien. Ivory Consulting unit la rigueur scientifique et l'héritage des Antilles et de l'Afrique, parce qu'un management qui nous ressemble est un management qui fonctionne.</p>
       </div>
       <div class="racines-grid">
-        <div class="racine-card tilt" data-aos="fade-up">
+        <div class="racine-card tilt">
           <div class="racine-symbol"><i class="fas fa-people-roof"></i></div>
           <h3>Le Lakou</h3>
           <div class="origine">Héritage créole</div>
           <p>L'espace commun où chacun a sa place et son rôle. En entreprise : le sentiment d'appartenance, besoin fondamental du cerveau social.</p>
         </div>
-        <div class="racine-card tilt" data-aos="fade-up" data-aos-delay="80">
+        <div class="racine-card tilt">
           <div class="racine-symbol"><i class="fas fa-hands-holding-circle"></i></div>
           <h3>Lyannaj</h3>
           <div class="origine">Antilles</div>
           <p>Faire lien, se solidariser pour avancer ensemble. La coopération n'est pas une option : notre cerveau est fait pour ça, encore faut-il savoir l'activer.</p>
         </div>
-        <div class="racine-card tilt" data-aos="fade-up" data-aos-delay="160">
+        <div class="racine-card tilt">
           <div class="racine-symbol"><i class="fas fa-monument"></i></div>
           <h3>Poto Mitan</h3>
           <div class="origine">Créole guadeloupéen</div>
           <p>Le pilier central qui soutient tout. Le dirigeant qui porte tout seul finit par s'épuiser. J'aide les « poto mitan » à déléguer sans s'effondrer.</p>
         </div>
-        <div class="racine-card tilt" data-aos="fade-up" data-aos-delay="240">
+        <div class="racine-card tilt">
           <div class="racine-symbol"><i class="fas fa-dove"></i></div>
           <h3>Ubuntu</h3>
           <div class="origine">Philosophie bantoue</div>
@@ -587,7 +619,7 @@
       </div>
 
       
-      <div class="scope-note gold" data-aos="fade-up" style="margin-top:34px;">
+      <div class="scope-note gold" style="margin-top:34px;">
         <p style="margin-bottom:0;">
           <strong>Une précision utile.</strong> Le Lakou, le Lyannaj, le Poto Mitan, l'Ubuntu sont ici
           des <strong>grilles de lecture partagées</strong>, pas des pratiques de soin. Ce sont des mots
@@ -599,31 +631,31 @@
 
       <!-- Figures emblématiques -->
       <div class="figures-grid">
-        <div class="figure-quote" data-aos="fade-up">
+        <div class="figure-quote">
           <div class="fq-mark">«</div>
           <blockquote>Il est place pour tous au rendez-vous de la conquête.</blockquote>
           <div class="fq-author">Aimé Césaire 🇲🇶</div>
           <div class="fq-role">Poète et homme politique, Martinique. L'inclusion comme moteur du collectif.</div>
         </div>
-        <div class="figure-quote" data-aos="fade-up" data-aos-delay="80">
+        <div class="figure-quote">
           <div class="fq-mark">«</div>
           <blockquote>Armez-vous de science jusqu'aux dents.</blockquote>
           <div class="fq-author">Cheikh Anta Diop 🇸🇳</div>
           <div class="fq-role">Historien et physicien, Sénégal. La rigueur scientifique comme fierté et comme méthode.</div>
         </div>
-        <div class="figure-quote" data-aos="fade-up" data-aos-delay="160">
+        <div class="figure-quote">
           <div class="fq-mark">«</div>
           <blockquote>Ô mon corps, fais de moi toujours un homme qui interroge !</blockquote>
           <div class="fq-author">Frantz Fanon 🇲🇶</div>
           <div class="fq-role">Psychiatre et penseur, Martinique. Comprendre l'humain pour le libérer, en commençant par le cerveau.</div>
         </div>
-        <div class="figure-quote" data-aos="fade-up" data-aos-delay="240">
+        <div class="figure-quote">
           <div class="fq-mark">«</div>
           <blockquote>Il faut vouloir donner le meilleur de soi.</blockquote>
           <div class="fq-author">Marie-José Pérec <svg class="gwada-flag" viewBox="0 0 30 21" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Drapeau de la Guadeloupe"><rect width="30" height="21" fill="#E8112D"/><rect width="30" height="3.4" y="0" fill="#009543"/><rect width="30" height="1" y="3.4" fill="#FFFFFF"/><rect width="30" height="1" y="16.6" fill="#FFFFFF"/><rect width="30" height="3.4" y="17.6" fill="#009543"/><path d="M9.5 6.1l1.32 4.06h4.27l-3.45 2.51 1.32 4.06-3.46-2.51-3.46 2.51 1.32-4.06-3.45-2.51h4.27z" fill="#FCD116"/></svg></div>
           <div class="fq-role">Triple championne olympique, Guadeloupe. L'exigence et le dépassement, valeurs d'équipe.</div>
         </div>
-        <div class="figure-quote" data-aos="fade-up" data-aos-delay="320">
+        <div class="figure-quote">
           <div class="fq-mark">«</div>
           <blockquote>Il reste de belles causes à défendre. Elles peuvent fédérer les énergies.</blockquote>
           <div class="fq-author">Christiane Taubira 🇬🇫</div>
@@ -654,33 +686,32 @@
         <p class="section-sub light" style="max-width:660px; margin:0 auto;">91% des salariés disent que la QVCT est un sujet capital, mais 2 sur 3 ne sont pas satisfaits. En Guadeloupe, les dirigeants de TPE n'ont ni le budget pour un cabinet RH parisien, ni le temps pour une démarche de 6 mois. Je suis là pour ça.</p>
       </div>
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:22px;">
-        <div class="pain-card tilt" data-aos="fade-up" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">🎯</div><h3 class="gold-text">Positionnement unique</h3><p>Le seul cabinet en Guadeloupe à proposer des ateliers cognitifs de neuromanagement certifiés par la recherche.</p></div>
-        <div class="pain-card tilt" data-aos="fade-up" data-aos-delay="80" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">🧪</div><h3 class="gold-text">Méthode scientifique</h3><p>8 ateliers cognitifs construits à partir de la recherche, pas des formations génériques.</p></div>
-        <div class="pain-card tilt" data-aos="fade-up" data-aos-delay="160" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">📍</div><h3 class="gold-text">Ancrage local</h3><p>Je connais votre réalité. Mes exemples, mes cas, mes références : la Guadeloupe.</p></div>
-        <div class="pain-card tilt" data-aos="fade-up" data-aos-delay="240" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">📊</div><h3 class="gold-text">Effets observables</h3><p>Baisse des tensions signalées, climat d'équipe, engagement : des effets que vous pouvez suivre avec vos propres indicateurs.</p></div>
+        <div class="pain-card tilt" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">🎯</div><h3 class="gold-text">Positionnement unique</h3><p>Le seul cabinet en Guadeloupe à proposer des ateliers cognitifs de neuromanagement certifiés par la recherche.</p></div>
+        <div class="pain-card tilt" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">🧪</div><h3 class="gold-text">Méthode scientifique</h3><p>8 ateliers cognitifs construits à partir de la recherche, pas des formations génériques.</p></div>
+        <div class="pain-card tilt" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">📍</div><h3 class="gold-text">Ancrage local</h3><p>Je connais votre réalité. Mes exemples, mes cas, mes références : la Guadeloupe.</p></div>
+        <div class="pain-card tilt" style="text-align:center;"><div style="font-size:2.2rem; margin-bottom:10px;">📊</div><h3 class="gold-text">Effets observables</h3><p>Baisse des tensions signalées, climat d'équipe, engagement : des effets que vous pouvez suivre avec vos propres indicateurs.</p></div>
       </div>
     </div>
   </section>
   <section class="section section-light" id="avis" style="padding-top:56px;">
     <div class="container">
-      <div style="text-align:center; margin-bottom:42px;" data-aos="fade-up">
+      <div style="text-align:center;">
         <span class="section-label">Ils m'ont fait confiance</span>
         <h2 class="section-title dark">Ce que disent mes <span class="gold-text">clients</span></h2>
         <div class="divider-gold" style="margin:16px auto;"></div>
-        <a class="greviews-badge" href="https://www.google.com/maps/place/?q=place_id:ChIJd04IZnrwwSUR35iS42ZmBTo" target="_blank" rel="noopener" style="text-decoration:none;" title="Voir la fiche Google d'Ivory Consulting">
-          <span class="g-icon"><i class="fab fa-google" style="color:#4285F4;"></i></span>
+        <a class="greviews-badge" href="https://www.google.com/maps/place/?q=place_id:ChIJd04IZnrwwSUR35iS42ZmBTo" target="_blank" rel="noopener" style="text-decoration:none;" title="Voir ma fiche Google">
+          <span class="g-icon"><i class="fab fa-google" style="color:#4285F4;" aria-hidden="true"></i></span>
           <span class="score">5,0</span>
-          <span class="stars-line">★★★★★</span>
-          <span class="count">7 avis Google<br/>100% cinq étoiles</span>
+          <span class="stars-line" aria-hidden="true">★★★★★</span>
+          <span class="count">7 avis Google<br/>100&nbsp;% cinq étoiles</span>
         </a>
       </div>
-      <div class="testi-grid">
 
-        <!-- AVIS GOOGLE, Marthe CORAN / Mairie du Gosier (featured) -->
-        <div class="testi-card featured-testi tilt" data-aos="fade-up">
+      <div class="testi-grid" style="margin-top:36px;">
+        <div class="testi-card featured-testi tilt">
           <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource" style="color:rgba(255,255,255,0.55);"><i class="fab fa-google"></i> Avis Google vérifié</div>
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <div class="gsource" style="color:rgba(255,255,255,0.55);"><i class="fab fa-google" aria-hidden="true"></i> Avis Google vérifié</div>
           <p class="body">« Je recommande cet atelier, qui fait appel à des connaissances parfois oubliées. Que ce soit dans l'entreprise ou dans le secteur public, cette approche contribuerait à faire grandir les équipes et à développer une meilleure intelligence collective. Un grand bravo aux collègues, vous étiez au top ! »</p>
           <div class="testi-author">
             <div class="testi-initial">M</div>
@@ -690,127 +721,24 @@
             </div>
           </div>
         </div>
-
-        <!-- AVIS GOOGLE, Joss LYNN -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="80">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fab fa-google"></i> Avis Google vérifié</div>
-          <p class="body">« Formation enrichissante permettant d'appréhender les mécanismes de l'apprentissage et du fonctionnement de la mémoire. Le formateur, bienveillant et à l'écoute des participants, favorise les échanges et, par des exemples et des jeux, contribue à la clarté des points abordés. »</p>
-          <div class="testi-author">
-            <div class="testi-initial">J</div>
-            <div class="testi-info">
-              <div class="name">Joss L.</div>
-              <div class="company">Participante atelier cognitif · Guadeloupe</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- AVIS GOOGLE, Geoffrey -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="160">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fab fa-google"></i> Avis Google vérifié</div>
-          <p class="body">« Formation très instructive ! J'ai pu apprendre énormément de choses sur le fonctionnement du cerveau et j'ai beaucoup apprécié les ateliers aussi. Des clés concrètes, notamment sur la préparation mentale. »</p>
-          <div class="testi-author">
-            <div class="testi-initial">G</div>
-            <div class="testi-info">
-              <div class="name">Geoffrey M.-J.</div>
-              <div class="company">Participant atelier cognitif · Guadeloupe</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- AVIS GOOGLE, Christian LOCO -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="240">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fab fa-google"></i> Avis Google vérifié</div>
-          <p class="body">« Formation de qualité, claire et accessible. Les contenus abordés permettent de mieux comprendre le fonctionnement de la mémoire et les mécanismes de l'apprentissage. »</p>
-          <div class="testi-author">
-            <div class="testi-initial">C</div>
-            <div class="testi-info">
-              <div class="name">Christian L.</div>
-              <div class="company">Participant formation · Guadeloupe</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- AVIS GOOGLE, Diana -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="320">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fab fa-google"></i> Avis Google vérifié</div>
-          <p class="body">« Un atelier agréable et très constructif. Un contenu intéressant et pratique, animé avec excellence. »</p>
-          <div class="testi-author">
-            <div class="testi-initial">D</div>
-            <div class="testi-info">
-              <div class="name">Diana P.</div>
-              <div class="company">Participante atelier · Guadeloupe</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- AVIS GOOGLE, Joélick + Annick (combiné court) -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="400">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fab fa-google"></i> Avis Google vérifiés</div>
-          <p class="body">« Très bonne séance et formateur très à l'écoute. » (Joélick S.)<br/><br/>« Formation très enrichissante et évolutive. Je la recommande. » (Annick A.)</p>
-          <div class="testi-author">
-            <div class="testi-initial">★</div>
-            <div class="testi-info">
-              <div class="name">Joélick S. &amp; Annick A.</div>
-              <div class="company">Participants ateliers · Guadeloupe</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TÉMOIGNAGE CLIENT, Veg'âme Anya -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="480">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fas fa-quote-left" style="color:var(--gold);"></i> Témoignage client</div>
-          <p class="body">« Nadjé est intervenu dans notre espace avec un atelier de 2h sur la communication et la gestion du stress. Toute l'équipe a compris pourquoi les tensions montaient lors des périodes chargées. Trois mois après : zéro conflit, une cohésion retrouvée, et nos clientes le ressentent. »</p>
-          <div class="testi-author">
-            <img class="testi-logo" src="img/logo-vegame-anya.webp" alt="Logo Veg'âme Anya" loading="lazy"
-                 style="object-fit:contain; background:#3d0c5e; padding:2px;"/ onerror="this.onerror=null;this.src='veg%27ame%20anya.jpeg';">
-            <div class="testi-info">
-              <div class="name">Amélie Shakti</div>
-              <div class="company">Fondatrice · Veg'âme Anya (Guadeloupe)</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TÉMOIGNAGE CLIENT, Xalisi -->
-        <div class="testi-card tilt" data-aos="fade-up" data-aos-delay="560">
-          <div class="quote-icon">"</div>
-          <div class="stars">★★★★★</div>
-          <div class="gsource"><i class="fas fa-quote-left" style="color:var(--gold);"></i> Témoignage client</div>
-          <p class="body">« En tant que cabinet de conseil, nous avions du mal à maintenir la cohésion en période de forte charge. Nadjé a apporté une lecture neuroscientifique de nos dysfonctionnements que je n'aurais jamais eue seul. Le programme Cerveau &amp; Management a transformé notre façon de collaborer. »</p>
-          <div class="testi-author">
-            <img class="testi-avatar" src="img/gagny-diarra-xalisi-consulting.webp" alt="Gagny Diarra, Xalisi Consulting" loading="lazy"
-                 style="object-position:center top;"/ onerror="this.onerror=null;this.src='preuve%20sociale%20Gagny%20Diarra.jpeg';">
-            <div class="testi-info">
-              <div class="name">Gagny Diarra</div>
-              <div class="company">Consultant Achats &amp; Supply Chain · Xalisi Consulting</div>
-            </div>
-          </div>
-        </div>
-
       </div>
-      <div style="text-align:center; margin-top:44px;" data-aos="fade-up">
-        <a href="https://www.google.com/maps/place/?q=place_id:ChIJd04IZnrwwSUR35iS42ZmBTo" target="_blank" rel="noopener" class="btn-outline" style="color:var(--text-muted); border-color:rgba(0,0,0,0.2); margin-right:10px;">
-          <i class="fab fa-google"></i> Voir tous les avis Google
+
+      <div style="text-align:center; margin-top:34px;">
+        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.7; max-width:560px; margin:0 auto 24px;">
+          Sept autres retours d'expérience, de dirigeants, de managers et de participants,
+          sont réunis sur une page dédiée.
+        </p>
+        <a href="/temoignages/" class="btn-outline" style="color:var(--text-muted); border-color:rgba(0,0,0,0.2); margin-right:10px;">
+          <i class="fas fa-comments" aria-hidden="true"></i> Lire tous les témoignages
         </a>
         <a href="https://calendly.com/guehinadje-ivoryconsulting/audit" target="_blank" rel="noopener" class="btn-primary">
-          <i class="fas fa-calendar-check"></i> À votre tour : réserver un audit
+          <i class="fas fa-calendar-check" aria-hidden="true"></i> À votre tour : réserver un audit
         </a>
       </div>
     </div>
   </section>
   <section style="background:var(--navy); padding:60px 30px; text-align:center;">
-    <div class="container" data-aos="fade-up">
+    <div class="container">
       <h2 style="font-family:'Playfair Display',serif; font-size:1.75rem; color:#fff; margin-bottom:13px;">Échanger directement avec moi</h2>
       <p style="color:rgba(255,255,255,0.7); margin-bottom:26px; max-width:560px; margin-left:auto; margin-right:auto;">30 minutes, en visio ou sur site. Pas de discours commercial : on regarde votre situation et je vous dis ce que j'en pense.</p>
       <a href="https://calendly.com/guehinadje-ivoryconsulting/audit" target="_blank" rel="noopener" class="btn-primary">
@@ -840,6 +768,7 @@
       <a href="masterclass-webinaires.html" class="footer-link">Masterclass</a>
       <a href="a-propos.html" class="footer-link">À propos</a>
       <a href="contact.html" class="footer-link">Contact</a>
+      <a href="/temoignages/" class="footer-link">Témoignages</a>
       <a href="mentions-legales.html" class="footer-link">Mentions légales &amp; CGV</a>
     </div>
     <hr/>
@@ -871,22 +800,7 @@
   <button id="cookie-btn-refuse" onclick="refuseCookies()">Refuser</button>
 </div>
 
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-  /* Filet de sécurité anti-page-blanche : si la librairie d'animations n'a pas
-     démarré au bout d'une seconde, on affiche le contenu tel quel. */
-  (function(){
-    function reveler(){ document.documentElement.classList.add('aos-secours'); }
-    setTimeout(function(){
-      if (typeof window.AOS === 'undefined' || !document.querySelector('[data-aos].aos-init')) reveler();
-    }, 1000);
-    window.addEventListener('error', function(e){
-      if (e.target && (e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) reveler();
-    }, true);
-  })();
-</script>
-<script>
-AOS.init({ duration:680, once:true, offset:55 });
 
   /* ===== GTM chargé uniquement après consentement (RGPD) ===== */
   function loadGTM() {
@@ -964,68 +878,54 @@ AOS.init({ duration:680, once:true, offset:55 });
     }, { passive: true });
   })();
 
-  /* ===== EFFET TILT 3D PREMIUM (desktop uniquement) ===== */
+  /* ===== Effet de relief au survol, limité à une écriture par image ===== */
   (function() {
     if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.querySelectorAll('.tilt').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = 'perspective(900px) rotateY(' + (x*7).toFixed(2) + 'deg) rotateX(' + (-y*7).toFixed(2) + 'deg) translateY(-5px)';
-      });
-      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    if (window.innerWidth < 900) return;
+    document.querySelectorAll('.tilt').forEach(function(card){
+      var enCours = false, x = 0, y = 0;
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        x = (e.clientX - r.left) / r.width - 0.5;
+        y = (e.clientY - r.top) / r.height - 0.5;
+        if (enCours) return;
+        enCours = true;
+        requestAnimationFrame(function(){
+          card.style.transform = 'perspective(900px) rotateY(' + (x*6).toFixed(2) +
+                                 'deg) rotateX(' + (-y*6).toFixed(2) + 'deg) translateY(-4px)';
+          enCours = false;
+        });
+      }, { passive:true });
+      card.addEventListener('mouseleave', function(){ card.style.transform = ''; }, { passive:true });
     });
   })();
 
-  /* ===== PARTICULES DORÉES DU HERO ===== */
-  (function() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const canvas = document.getElementById('hero-particles');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let W, H, parts = [];
-    function resize() {
-      const hero = canvas.parentElement;
-      W = canvas.width = hero.offsetWidth;
-      H = canvas.height = hero.offsetHeight;
-    }
-    function init() {
-      parts = [];
-      const n = Math.min(42, Math.floor(W / 32));
-      for (let i = 0; i < n; i++) {
-        parts.push({
-          x: Math.random()*W, y: Math.random()*H,
-          r: Math.random()*2.2 + 0.6,
-          vx: (Math.random()-0.5)*0.25, vy: -(Math.random()*0.35 + 0.08),
-          a: Math.random()*0.55 + 0.15
-        });
-      }
-    }
-    function draw() {
-      ctx.clearRect(0,0,W,H);
-      parts.forEach(p => {
-        p.x += p.vx; p.y += p.vy;
-        if (p.y < -8) { p.y = H + 8; p.x = Math.random()*W; }
-        if (p.x < -8) p.x = W + 8;
-        if (p.x > W + 8) p.x = -8;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(207,169,74,' + p.a + ')';
-        ctx.shadowColor = 'rgba(227,190,94,0.8)';
-        ctx.shadowBlur = 7;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-      requestAnimationFrame(draw);
-    }
-    resize(); init(); draw();
-    window.addEventListener('resize', () => { resize(); init(); }, { passive:true });
-  })();
 
   /* ===== INIT ===== */
   setTimeout(animateCounters, 600);
+
+  /* ===== Préchargement au survol des liens internes ===== */
+  (function(){
+    if (navigator.connection && (navigator.connection.saveData ||
+        /2g/.test(navigator.connection.effectiveType || ''))) return;
+    var faits = new Set();
+    function precharger(url){
+      if (faits.has(url)) return;
+      faits.add(url);
+      var l = document.createElement('link');
+      l.rel = 'prefetch'; l.href = url; l.as = 'document';
+      document.head.appendChild(l);
+    }
+    document.addEventListener('mouseover', function(e){
+      var a = e.target.closest && e.target.closest('a[href$=".html"], a[href="index.html"]');
+      if (a && a.origin === location.origin) precharger(a.href);
+    }, { passive:true });
+    document.addEventListener('touchstart', function(e){
+      var a = e.target.closest && e.target.closest('a[href$=".html"]');
+      if (a && a.origin === location.origin) precharger(a.href);
+    }, { passive:true });
+  })();
 </script>
 </body>
 </html>

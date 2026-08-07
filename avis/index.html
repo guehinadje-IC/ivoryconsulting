@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mentions légales et CGV | Ivory Consulting</title>
-  <meta name="description" content="Mentions légales, politique de données personnelles (RGPD) et conditions générales de vente d'IVORY CORP, Ivory Consulting, Le Gosier, Guadeloupe."/>
-  <meta name="robots" content="noindex, follow"/>
+  <title>Laisser un avis | Ivory Consulting</title>
+  <meta name="description" content="Vous avez participé à un atelier, une formation ou un accompagnement Ivory Consulting ? Partagez votre expérience sur Google."/>
+  <meta name="robots" content="index, follow, max-image-preview:large"/>
   <meta name="author" content="Nadjé GUEHI, Ivory Consulting"/>
   <meta name="theme-color" content="#0B1020"/>
-  <link rel="canonical" href="https://ivoryconsulting.fr/mentions-legales.html"/>
-  <link rel="icon" type="image/png" href="img/logo-ivory-consulting.png"/>
-  <link rel="apple-touch-icon" href="img/logo-ivory-consulting.png"/>
+  <link rel="canonical" href="https://ivoryconsulting.fr/avis/"/>
+  <link rel="icon" type="image/png" href="../img/logo-ivory-consulting.png"/>
+  <link rel="apple-touch-icon" href="../img/logo-ivory-consulting.png"/>
 
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Ivory Consulting"/>
-  <meta property="og:url" content="https://ivoryconsulting.fr/mentions-legales.html"/>
-  <meta property="og:title" content="Mentions légales et CGV | Ivory Consulting"/>
-  <meta property="og:description" content="Mentions légales, politique de données personnelles (RGPD) et conditions générales de vente d'IVORY CORP, Ivory Consulting, Le Gosier, Guadeloupe."/>
+  <meta property="og:url" content="https://ivoryconsulting.fr/avis/"/>
+  <meta property="og:title" content="Laisser un avis | Ivory Consulting"/>
+  <meta property="og:description" content="Vous avez participé à un atelier, une formation ou un accompagnement Ivory Consulting ? Partagez votre expérience sur Google."/>
   <meta property="og:image" content="https://ivoryconsulting.fr/img/og-ivory-consulting.jpg"/>
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
   <meta property="og:image:alt" content="Nadjé GUEHI, consultant en neuromanagement en Guadeloupe"/>
   <meta property="og:locale" content="fr_FR"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Mentions légales et CGV | Ivory Consulting"/>
-  <meta name="twitter:description" content="Mentions légales, politique de données personnelles (RGPD) et conditions générales de vente d'IVORY CORP, Ivory Consulting, Le Gosier, Guadeloupe."/>
+  <meta name="twitter:title" content="Laisser un avis | Ivory Consulting"/>
+  <meta name="twitter:description" content="Vous avez participé à un atelier, une formation ou un accompagnement Ivory Consulting ? Partagez votre expérience sur Google."/>
   <meta name="twitter:image" content="https://ivoryconsulting.fr/img/og-ivory-consulting.jpg"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -120,7 +120,7 @@
 
     /* ===== HERO ===== */
     .hero { min-height:88vh; background:var(--navy); position:relative; display:flex; align-items:center; overflow:hidden; }
-    .hero-bg { position:absolute; inset:0; background-image:url('img/atelier-declic-cognitif.webp'); background-size:cover; background-position:center 20%; opacity:0.32; transform:scale(1.06); animation:heroZoom 18s ease-in-out infinite alternate; }
+    .hero-bg { position:absolute; inset:0; background-image:url('../img/atelier-declic-cognitif.webp'); background-size:cover; background-position:center 20%; opacity:0.32; transform:scale(1.06); animation:heroZoom 18s ease-in-out infinite alternate; }
     @keyframes heroZoom { from{transform:scale(1.02);} to{transform:scale(1.1);} }
     .hero-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(11,16,32,0.96) 0%,rgba(11,16,32,0.65) 55%,rgba(207,169,74,0.08) 100%); }
     .hero-watermark { position:absolute; bottom:24px; right:32px; z-index:1; width:120px; opacity:0.08; pointer-events:none; }
@@ -517,101 +517,191 @@
     .pulsing   { animation-iteration-count:3; }
     .brain-pulse { animation-iteration-count:3; }
   </style>
+  <style>
+    /* ===== Page /avis : parcours de dépôt d'avis, pensé pouce en main ===== */
+    .avis-hero { background:var(--navy); padding:64px 22px 58px; text-align:center; position:relative; overflow:hidden; }
+    .avis-hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--liseret); }
+    .avis-hero .container { max-width:660px; }
+    .avis-hero h1 { font-family:'Playfair Display',serif; font-weight:700; color:#fff;
+                    font-size:clamp(1.9rem,6vw,2.9rem); line-height:1.18; margin-bottom:20px; }
+    .avis-hero p.chapeau { color:rgba(255,255,255,0.78); font-size:clamp(1rem,2.6vw,1.12rem);
+                           line-height:1.68; max-width:560px; margin:0 auto 34px; }
+    .avis-etoiles { font-size:1.6rem; letter-spacing:5px; color:var(--gold); margin-bottom:18px; }
+
+    /* Bouton principal : cible tactile large, contraste fort */
+    .btn-google {
+      display:inline-flex; align-items:center; justify-content:center; gap:12px;
+      width:100%; max-width:420px; min-height:62px; padding:18px 28px;
+      background:linear-gradient(135deg,var(--gold-light),var(--gold));
+      color:var(--navy); font-family:'Inter',sans-serif; font-weight:600; font-size:1.08rem;
+      border-radius:999px; text-decoration:none; box-shadow:var(--shadow-gold);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .btn-google:hover, .btn-google:focus-visible { transform:translateY(-2px); box-shadow:0 12px 46px rgba(207,169,74,0.42); }
+    .btn-google i { font-size:1.15rem; }
+
+    .avis-note { color:rgba(255,255,255,0.5); font-size:0.82rem; margin-top:16px; }
+
+    /* Réassurance : trois repères factuels, pas de promesse */
+    .avis-reperes { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:30px; }
+    .avis-repere { display:inline-flex; align-items:center; gap:8px; padding:9px 16px;
+                   background:rgba(255,255,255,0.06); border:1px solid rgba(207,169,74,0.28);
+                   border-radius:999px; color:rgba(255,255,255,0.82); font-size:0.83rem; }
+    .avis-repere i { color:var(--gold); font-size:0.86rem; }
+
+    .avis-bloc { padding:52px 22px; }
+    .avis-bloc .container { max-width:660px; }
+    .avis-merci { background:var(--ivory); text-align:center; }
+    .avis-merci p { color:var(--text-muted); font-size:1rem; line-height:1.72; }
+    .avis-merci .signature { margin-top:22px; font-family:'Playfair Display',serif;
+                             color:var(--text-dark); font-size:1.02rem; }
+    .avis-merci .signature span { display:block; font-family:'Inter',sans-serif;
+                                  font-size:0.83rem; color:var(--text-muted); margin-top:4px; }
+
+    /* Zone QR code */
+    .avis-qr { background:#fff; border-top:1px solid rgba(0,0,0,0.06); text-align:center; }
+    .qr-carte { display:inline-block; padding:22px; background:#fff; border:1px solid rgba(11,16,32,0.1);
+                border-radius:var(--radius); box-shadow:0 6px 26px rgba(11,16,32,0.07); }
+    .qr-carte img { display:block; width:190px; height:190px; }
+    .avis-qr h2 { font-family:'Playfair Display',serif; font-size:1.42rem; color:var(--text-dark); margin-bottom:12px; }
+    .avis-qr p { color:var(--text-muted); font-size:0.95rem; line-height:1.65; max-width:520px; margin:0 auto 26px; }
+    .qr-url { margin-top:16px; font-size:0.82rem; color:var(--text-muted); letter-spacing:0.02em; }
+
+    /* Passerelle vers les témoignages */
+    .avis-passerelle { background:var(--navy); text-align:center; }
+    .avis-passerelle h2 { font-family:'Playfair Display',serif; font-size:1.42rem; color:#fff; margin-bottom:12px; }
+    .avis-passerelle p { color:rgba(255,255,255,0.7); font-size:0.97rem; line-height:1.65;
+                         max-width:520px; margin:0 auto 26px; }
+    .btn-temoignages {
+      display:inline-flex; align-items:center; gap:10px; min-height:52px; padding:14px 30px;
+      border:1px solid rgba(207,169,74,0.55); color:var(--gold); border-radius:999px;
+      text-decoration:none; font-weight:600; font-size:0.97rem; transition:background .25s ease, transform .2s ease;
+    }
+    .btn-temoignages:hover, .btn-temoignages:focus-visible { background:rgba(207,169,74,0.12); transform:translateY(-2px); }
+
+    /* Header allégé : le logo suffit, aucune sortie latérale */
+    .site-header.header-focus { padding:16px 20px 14px; }
+    .site-header.header-focus .logo-area { margin-bottom:0; }
+
+    @media (max-width:520px) {
+      .avis-hero { padding:44px 18px 42px; }
+      .qr-carte img { width:160px; height:160px; }
+      .avis-bloc { padding:42px 18px; }
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://ivoryconsulting.fr/avis/",
+      "url": "https://ivoryconsulting.fr/avis/",
+      "name": "Laisser un avis | Ivory Consulting",
+      "description": "Partagez votre expérience d'un atelier, d'une formation ou d'un accompagnement Ivory Consulting sur Google.",
+      "inLanguage": "fr-FR",
+      "isPartOf": { "@type": "WebSite", "@id": "https://ivoryconsulting.fr/#website", "url": "https://ivoryconsulting.fr/", "name": "Ivory Consulting" },
+      "about": { "@type": "ProfessionalService", "name": "Ivory Consulting", "url": "https://ivoryconsulting.fr/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://ivoryconsulting.fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Laisser un avis", "item": "https://ivoryconsulting.fr/avis/" }
+      ]
+    }
+  ]
+}
+  </script>
 </head>
 <body>
 <a class="skip-link" href="#contenu">Aller au contenu</a>
 
 <!-- ===== HEADER ===== -->
-<header class="site-header">
+<header class="site-header header-focus">
   <div class="logo-area">
-    <a class="logo-3d-wrap" href="index.html" title="Accueil, Ivory Consulting">
+    <a class="logo-3d-wrap" href="../index.html" title="Accueil, Ivory Consulting">
       <div class="logo-3d-inner">
-        <img src="img/logo-ivory-consulting.webp" width="320" height="320"
-             alt="Logo Ivory Consulting, neuromanagement en Guadeloupe"/ onerror="this.onerror=null;this.src='logo-v2-vierge.png';">
+        <img src="../img/logo-ivory-consulting.webp" width="320" height="320"
+             alt="Logo Ivory Consulting, neuromanagement en Guadeloupe" onerror="this.onerror=null;this.src='../logo-v2-vierge.png';"/>
       </div>
     </a>
     <div class="logo-tagline">Neuro-management &amp; Performance</div>
   </div>
-  <nav class="main-nav" aria-label="Navigation principale">
-    <a class="nav-tab" href="index.html">Accueil</a>
-    <a class="nav-tab" href="ateliers-cognitifs.html">Ateliers cognitifs</a>
-    <a class="nav-tab" href="diagnostic-managerial.html">Diagnostic</a>
-    <a class="nav-tab" href="offres-tarifs.html">Offres &amp; Tarifs</a>
-    <a class="nav-tab" href="masterclass-webinaires.html">Masterclass</a>
-    <a class="nav-tab" href="a-propos.html">À propos</a>
-    <a class="nav-tab" href="contact.html">Contact</a>
-  </nav>
 </header>
 
 <main id="contenu" class="page">
 
-  <div class="legal-content">
-    <h1 class="legal-title">Informations légales</h1>
-    <p class="update-date">Dernière mise à jour : Juillet 2026</p>
-    <div class="legal-tabs">
-      <button class="legal-tab active" onclick="showLegal(this,'mentions')">Mentions légales &amp; RGPD</button>
-      <button class="legal-tab" onclick="showLegal(this,'cgv')">Conditions Générales de Vente</button>
-    </div>
+  <!-- ===== HERO : objectif unique, un seul bouton ===== -->
+  <section class="avis-hero">
+    <div class="container">
+      <div class="avis-etoiles" aria-hidden="true">★★★★★</div>
+      <h1>Votre expérience <span class="gold-text">compte</span>.</h1>
+      <p class="chapeau">
+        Vous avez participé à un atelier, une formation ou un accompagnement Ivory&nbsp;Consulting&nbsp;?
+        Votre retour peut aider d'autres professionnels à découvrir mon approche.
+      </p>
 
-    <div id="legal-mentions" class="legal-panel active">
-      <div class="legal-section">
-        <h2>1. Informations légales</h2>
-        <p><strong>Éditeur :</strong> IVORY CORP · Ivory Consulting · SASU · Capital 1 000€ (variable, min. 100€)<br/>
-        RCS : 102 103 884 R.C.S. Pointe-à-Pitre · EUID : FR9712.102103884<br/>
-        Siège : 222 Impasse Fraiderick, 97190 Le Gosier, France<br/>
-        Président : M. Nadjé Fabrice GUEHI<br/>
-        Téléphone : +590 691 23 48 83<br/>
-        Email : <a href="mailto:guehinadje@ivoryconsulting.fr">guehinadje@ivoryconsulting.fr</a></p>
-        <h3>Hébergement</h3>
-        <p>GitHub Pages (GitHub, Inc., filiale de Microsoft Corporation) · 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA · <a href="https://pages.github.com" target="_blank" rel="noopener">pages.github.com</a></p>
-        <h3>Nom de domaine</h3>
-        <p>ivoryconsulting.fr est enregistré et administré via OVHcloud · SAS, capital 10 174 560€ · RCS Lille Métropole 424 761 419 00045<br/>2 rue Kellermann, 59100 Roubaix, France · <a href="https://www.ovhcloud.com" target="_blank" rel="noopener">ovhcloud.com</a></p>
-        <h3>Stockage des données</h3>
-        <p>Les données et documents de travail d'Ivory Consulting sont stockés sur <strong>kDrive</strong> (Infomaniak Network SA, Genève, Suisse) : un hébergeur européen indépendant et éco-responsable, dont les centres de données sont alimentés en énergie renouvelable. Les données restent hébergées en Europe. <a href="https://www.infomaniak.com/fr/kdrive" target="_blank" rel="noopener">infomaniak.com/kdrive</a></p>
-      </div>
-      <div class="legal-section">
-        <h2>2. Propriété intellectuelle</h2>
-        <p>L'ensemble du site est protégé par le droit d'auteur. Textes, images, logos sont la propriété exclusive d'IVORY CORP. Toute reproduction non autorisée est interdite.</p>
-      </div>
-      <div class="legal-section">
-        <h2>3. Données personnelles &amp; RGPD</h2>
-        <h3>Responsable du traitement</h3>
-        <p>IVORY CORP · 222 Impasse Fraiderick, 97190 Le Gosier · <a href="mailto:guehinadje@ivoryconsulting.fr">guehinadje@ivoryconsulting.fr</a></p>
-        <h3>Données collectées</h3>
-        <ul>
-          <li>Formulaire de contact et guide gratuit (Formspree) : nom, prénom, email, entreprise, message</li>
-          <li>Prise de rendez-vous (Calendly) : nom, email, créneau choisi</li>
-          <li>Mesure d'audience (Google Tag Manager / Analytics) : uniquement après consentement</li>
-        </ul>
-        <h3>Sous-traitants</h3>
-        <p>Formspree Inc. (USA) pour les formulaires · Calendly LLC (USA) pour la prise de RDV · Google LLC (USA) pour la mesure d'audience · Infomaniak Network SA (Suisse) pour le stockage des données (kDrive, hébergement européen éco-responsable). Transferts hors UE encadrés par clauses contractuelles types ; la Suisse bénéficie d'une décision d'adéquation de la Commission européenne.</p>
-        <h3>Vos droits</h3>
-        <p>Accès, rectification, effacement, opposition, portabilité : <a href="mailto:guehinadje@ivoryconsulting.fr">guehinadje@ivoryconsulting.fr</a>. Réclamation : <a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a></p>
-      </div>
-      <div class="legal-section">
-        <h2>4. Cookies</h2>
-        <p>Cookies strictement nécessaires + cookies de mesure d'audience déposés uniquement avec votre consentement. Paramétrable via le bandeau ou les paramètres navigateur.</p>
-      </div>
-      <div class="legal-section">
-        <h2>5. Droit applicable</h2>
-        <p>Droit français. Litige : tribunaux du ressort de Pointe-à-Pitre.</p>
-      </div>
-    </div>
+      <a class="btn-google" href="https://g.page/r/Cd-YkuMmZgU6EBM/review" target="_blank" rel="noopener"
+         onclick="icTrack('click_google_review')"
+         aria-label="Laisser un avis sur la fiche Google d'Ivory Consulting, ouvre un nouvel onglet">
+        <i class="fab fa-google" aria-hidden="true"></i> Laisser un avis sur Google
+      </a>
 
-    <div id="legal-cgv" class="legal-panel">
-      <div class="legal-section"><h2>Art. 1 : Champ d'application</h2><p>CGV applicables à toutes les prestations d'IVORY CORP (Ivory Consulting) : conseil en management et en neuromanagement, animation d'ateliers cognitifs, formation professionnelle, coaching de dirigeants et de managers, diagnostic des pratiques managériales. Toute commande implique acceptation sans réserve.</p></div>
-      <div class="legal-section"><h2>Art. 2 : Formation du contrat</h2><p>Commande ferme à réception du devis signé (manuscrit ou électronique) et, le cas échéant, de l'acompte. Toute modification = accord écrit requis.</p></div>
-      <div class="legal-section"><h2>Art. 3 : Nature des prestations</h2><p>IVORY CORP est tenue d'une <strong>obligation de moyens</strong> et non de résultat. Elle s'engage à la qualité professionnelle sans garantir d'objectifs chiffrés dépendant du contexte client, notamment en matière d'absentéisme, de turnover ou de climat social, dont l'évolution dépend de facteurs qui échappent au prestataire.</p></div>
-      <div class="legal-section"><h2>Art. 3 bis : Périmètre d'intervention et exclusions</h2><p>Les prestations d'IVORY CORP relèvent du <strong>conseil et de la formation en management</strong>. Elles s'inscrivent dans une démarche de <strong>prévention primaire</strong> portant sur les pratiques d'encadrement et l'organisation du travail.</p><p>IVORY CORP <strong>n'est pas un acteur de la santé au travail</strong>. Ses prestations ne constituent en aucun cas :</p><ul><li>un acte de soin, de thérapie, de psychothérapie ou de suivi psychologique ;</li><li>une évaluation clinique ou un diagnostic portant sur l'état de santé d'une personne ;</li><li>une évaluation des risques professionnels au sens des articles L. 4121-1 et suivants du Code du travail, ni une contribution formelle au document unique d'évaluation des risques professionnels (DUERP) ;</li><li>une prestation d'intervenant en prévention des risques professionnels (IPRP) au sens de l'article R. 4644-1 du Code du travail ;</li><li>un audit social, un bilan de compétences ou une expertise auprès du comité social et économique.</li></ul><p>Ces missions relèvent de l'employeur et des acteurs habilités : médecin du travail, service de prévention et de santé au travail, psychologue du travail, IPRP enregistré, organisme d'expertise agréé. Lorsqu'une situation portée à sa connaissance relève de ces champs, IVORY CORP en informe le client et l'oriente sans s'en saisir.</p><p>Le client conserve l'entière responsabilité de ses obligations légales en matière de santé et de sécurité au travail.</p></div>
-      <div class="legal-section"><h2>Art. 3 ter : Confidentialité des échanges en atelier</h2><p>Les propos tenus par les participants au cours des ateliers ne sont pas restitués nominativement au client. Les livrables écrits présentent des constats agrégés et anonymisés. Aucune donnée de santé n'est collectée, traitée ni conservée.</p></div>
-      <div class="legal-section"><h2>Art. 4 : Prix</h2><p>Prix en euros HT. Facturation en <strong>franchise de TVA (art. 293B CGI)</strong>. Frais annexes (déplacements, salle) indiqués au devis ou refacturés sur justificatifs.</p></div>
-      <div class="legal-section"><h2>Art. 5 : Paiement</h2><p>Acompte jusqu'à 50% à la commande. Solde à réception de facture (30 jours fin de mois sauf accord). Retard : pénalités au taux légal + indemnité forfaitaire 40€.</p></div>
-      <div class="legal-section"><h2>Art. 6 : Annulation</h2><ul><li>Plus de 15 jours avant : acompte acquis à titre d'indemnité</li><li>Entre 15 et 7 jours : 50% du montant dû</li><li>Moins de 7 jours : 100% exigible</li></ul></div>
-      <div class="legal-section"><h2>Art. 7 : Propriété intellectuelle</h2><p>IVORY CORP reste propriétaire de ses méthodes, outils et livrables. Droit d'usage interne, personnel, non exclusif accordé au client. Toute diffusion sans autorisation écrite est interdite.</p></div>
-      <div class="legal-section"><h2>Art. 8 : Confidentialité</h2><p>Obligation réciproque pendant la durée du contrat + 5 ans.</p></div>
-      <div class="legal-section"><h2>Art. 9 : Juridiction</h2><p>Droit français. Tout litige : tribunaux de Pointe-à-Pitre.</p></div>
+      <p class="avis-note">Le lien ouvre directement le formulaire officiel Google, dans un nouvel onglet.</p>
+
+      <div class="avis-reperes">
+        <span class="avis-repere"><i class="fas fa-clock" aria-hidden="true"></i> Deux minutes suffisent</span>
+        <span class="avis-repere"><i class="fas fa-pen-nib" aria-hidden="true"></i> Quelques lignes, librement</span>
+        <span class="avis-repere"><i class="fab fa-google" aria-hidden="true"></i> Un compte Google est nécessaire</span>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ===== RÉASSURANCE ===== -->
+  <section class="avis-bloc avis-merci">
+    <div class="container">
+      <p>
+        Quelques lignes suffisent. Votre retour est précieux pour m'aider à faire connaître mon travail.
+        Décrivez simplement ce que vous avez vécu&nbsp;: ce que vous avez appris, ce qui a changé dans
+        votre équipe, ou ce que vous diriez à un confrère qui hésite. Votre avis reste public sur Google
+        et vous pouvez le modifier ou le supprimer à tout moment.
+      </p>
+      <p class="signature">
+        Merci du temps que vous y consacrez.
+        <span>Nadjé GUEHI · Fondateur d'Ivory Consulting</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== ALTERNATIVE MOBILE ===== -->
+  <section class="avis-bloc avis-qr">
+    <div class="container">
+      <h2>Vous préférez continuer sur votre téléphone&nbsp;?</h2>
+      <p>
+        Scannez ce code avec l'appareil photo de votre mobile&nbsp;: il vous ramène sur cette page,
+        d'où vous pourrez déposer votre avis en quelques secondes.
+      </p>
+      <div class="qr-carte">
+        <img src="../img/qr-avis-ivory-consulting.svg" width="190" height="190"
+             alt="QR code renvoyant vers cette page de dépôt d'avis, ivoryconsulting.fr/avis"/>
+      </div>
+      <p class="qr-url">ivoryconsulting.fr/avis</p>
+    </div>
+  </section>
+
+  <!-- ===== PASSERELLE VERS LES TÉMOIGNAGES ===== -->
+  <section class="avis-bloc avis-passerelle">
+    <div class="container">
+      <h2>Vous souhaitez découvrir les expériences d'autres clients&nbsp;?</h2>
+      <p>Des dirigeants, des managers et des équipes racontent ce qui a changé après mes interventions.</p>
+      <a class="btn-temoignages" href="/temoignages/" onclick="icTrack('click_voir_temoignages')">
+        <i class="fas fa-comments" aria-hidden="true"></i> Voir les témoignages
+      </a>
+    </div>
+  </section>
+
 </main>
 
 <!-- ===== FOOTER ===== -->
@@ -623,18 +713,17 @@
       <a href="https://www.instagram.com/ivoryconsulting.qvct/" target="_blank" rel="noopener" class="social-btn" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
       <a href="https://www.google.com/maps/place/?q=place_id:ChIJd04IZnrwwSUR35iS42ZmBTo" target="_blank" rel="noopener" class="social-btn" title="Avis Google" aria-label="Fiche Google"><i class="fab fa-google"></i></a>
       <a href="mailto:guehinadje@ivoryconsulting.fr" class="social-btn" title="Email" aria-label="Email"><i class="fas fa-envelope"></i></a>
-      <a href="guide.html" class="social-btn" title="Guide PDF gratuit" aria-label="Guide PDF gratuit"><i class="fas fa-file-pdf"></i></a>
+      <a href="../guide.html" class="social-btn" title="Guide PDF gratuit" aria-label="Guide PDF gratuit"><i class="fas fa-file-pdf"></i></a>
     </div>
     <div class="footer-links">
-      <a href="index.html" class="footer-link">Accueil</a>
-      <a href="ateliers-cognitifs.html" class="footer-link">Ateliers cognitifs</a>
-      <a href="diagnostic-managerial.html" class="footer-link">Diagnostic managérial</a>
-      <a href="offres-tarifs.html" class="footer-link">Offres &amp; Tarifs</a>
-      <a href="masterclass-webinaires.html" class="footer-link">Masterclass</a>
-      <a href="a-propos.html" class="footer-link">À propos</a>
-      <a href="contact.html" class="footer-link">Contact</a>
-      <a href="/temoignages/" class="footer-link">Témoignages</a>
-      <a href="mentions-legales.html" class="footer-link">Mentions légales &amp; CGV</a>
+      <a href="../index.html" class="footer-link">Accueil</a>
+      <a href="../ateliers-cognitifs.html" class="footer-link">Ateliers cognitifs</a>
+      <a href="../diagnostic-managerial.html" class="footer-link">Diagnostic managérial</a>
+      <a href="../offres-tarifs.html" class="footer-link">Offres &amp; Tarifs</a>
+      <a href="../masterclass-webinaires.html" class="footer-link">Masterclass</a>
+      <a href="../a-propos.html" class="footer-link">À propos</a>
+      <a href="../contact.html" class="footer-link">Contact</a>
+      <a href="../mentions-legales.html" class="footer-link">Mentions légales &amp; CGV</a>
     </div>
     <hr/>
     <p class="footer-copy">
@@ -642,30 +731,27 @@
       Conseil et formation en neuromanagement · Ivory Consulting n'est pas un acteur de la santé au travail et ne réalise ni évaluation médicale, ni prise en charge thérapeutique.<br/>
       © 2026 IVORY CORP · Ivory Consulting · SASU · RCS Pointe-à-Pitre 102 103 884<br/>
       222 Impasse Fraiderick, 97190 Le Gosier, Guadeloupe · TVA en franchise (art. 293B CGI)<br/>
-      <a href="guide.html" style="color:var(--gold); font-size:0.75rem;">
+      <a href="../guide.html" style="color:var(--gold); font-size:0.75rem;">
         <i class="fas fa-file-pdf"></i> Guide gratuit : les 5 réflexes managériaux qui épuisent votre équipe
       </a>
     </p>
   </div>
 </footer>
-
-<!-- FLOATING CTA -->
-<div class="floating-cta">
-  <a href="https://calendly.com/guehinadje-ivoryconsulting/audit" target="_blank" rel="noopener" class="float-btn">
-    <i class="fas fa-calendar-check"></i> Audit gratuit
-  </a>
-</div>
-
 <!-- COOKIE BANNER -->
 <div id="cookie-banner">
   <p>Ce site utilise des cookies pour analyser le trafic et améliorer votre expérience.
-    <a href="mentions-legales.html">En savoir plus</a>
+    <a href="../mentions-legales.html">En savoir plus</a>
   </p>
   <button id="cookie-btn-accept" onclick="acceptCookies()">Accepter</button>
   <button id="cookie-btn-refuse" onclick="refuseCookies()">Refuser</button>
 </div>
-
 <script>
+  /* ===== Suivi des clics avis (GTM déjà chargé après consentement) ===== */
+  function icTrack(nom) {
+    try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({event: nom}); } catch (e) {}
+    return true;
+  }
+
 
   /* ===== GTM chargé uniquement après consentement (RGPD) ===== */
   function loadGTM() {
@@ -679,13 +765,6 @@
   }
 
 
-  /* ===== ONGLETS LÉGAUX ===== */
-  function showLegal(btn, panel) {
-    document.querySelectorAll('.legal-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('legal-' + panel).classList.add('active');
-    btn.classList.add('active');
-  }
 
   /* ===== COOKIES (consentement avant tout traceur) ===== */
   function acceptCookies()  { document.getElementById('cookie-banner').style.display='none'; localStorage.setItem('ic_cookies','accepted'); loadGTM(); }
@@ -783,7 +862,7 @@
       document.head.appendChild(l);
     }
     document.addEventListener('mouseover', function(e){
-      var a = e.target.closest && e.target.closest('a[href$=".html"], a[href="index.html"]');
+      var a = e.target.closest && e.target.closest('a[href$=".html"], a[href="../index.html"]');
       if (a && a.origin === location.origin) precharger(a.href);
     }, { passive:true });
     document.addEventListener('touchstart', function(e){
@@ -792,5 +871,3 @@
     }, { passive:true });
   })();
 </script>
-</body>
-</html>
