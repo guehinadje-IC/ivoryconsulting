@@ -1,6 +1,13 @@
 User-agent: *
 Allow: /
+
+# Dossiers de travail (non publics)
 Disallow: /_parts/
 Disallow: /_originaux/
+
+# Fichiers de travail
+Disallow: /*.md$
+Disallow: /*.zip$
+Disallow: /*.docx$
 
 Sitemap: https://ivoryconsulting.fr/sitemap.xml
