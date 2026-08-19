@@ -48,6 +48,8 @@
   button.cta { background: var(--navy); color: var(--ivory); border: none; padding: 14px 20px; font-size: 1.05rem; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 6px; transition: background 0.15s, transform 0.1s; font-family: inherit; }
   button.cta:hover { background: #3a2560; }
   button.cta:active { transform: scale(0.98); }
+  p.consent { font-size: 0.78rem; line-height: 1.5; color: var(--muted); margin: 4px 0 0; opacity: 0.85; }
+  p.consent a { color: inherit; text-decoration: underline; }
   button.cta:disabled { opacity: 0.6; cursor: wait; }
 
   .checklist { margin: 20px 0 4px; padding: 0; list-style: none; }
@@ -135,6 +137,13 @@
         <li>Appuyé sur les neurosciences appliquées au management</li>
         <li>Édition 2026 enrichie (chiffres France &amp; Guadeloupe, cas réels)</li>
       </ul>
+
+      <p class="consent">
+        En demandant ce guide, vous recevez également mes analyses sur le
+        neuromanagement et la QVCT. Désabonnement en un clic depuis n'importe
+        quel message. Vos données ne sont ni vendues ni cédées.
+        <a href="mentions-legales.html" target="_blank" rel="noopener">Mentions légales</a>.
+      </p>
     </form>
   </section>
 
@@ -189,9 +198,10 @@ const CONFIG = {
   // Lien de réservation (CTA secondaire), Calendly
   BOOKING_URL: "https://calendly.com/guehinadje-ivoryconsulting/audit",
 
-  // FORMSPREE, endpoint de capture des emails
-  // Format : https://formspree.io/f/xxxxxxxx
-  FORMSPREE_ENDPOINT: "https://formspree.io/f/mgodryqp"
+  /* ----------------------------------------------------------------------
+     BREVO — voir le bloc explicatif plus bas, avant envoyerVersBrevo()
+  ---------------------------------------------------------------------- */
+  ENDPOINT_BREVO: "https://c6442036.sibforms.com/serve/MUIFAEPe5sRssNa9Hfze7K7MGypVvGR-GXczDzE8ZrjhHhGYLr3t0FNJfbtEY7cOFcGK1mgtwT5f4tcj1DAYAvHOtWrAD-u_4lPHcgYm-ECYNCB-gZPzjshJIv9UgQ0sS-li5e1OBRmGaiUE51TlQHUS7UMAH0Bx-DDaevxxo_uoKLqH1iQCL3oY-25zcjjZoaDBlxIo7qqcEiW7NQ=="
 };
 
 /* ========================================================================
@@ -215,6 +225,54 @@ function getUTMParams() {
     if (v) utm[key] = v;
   });
   return utm;
+}
+
+/* ======================================================================
+   ENVOI VERS BREVO (hébergement Union européenne)
+
+   Remplace Formspree (serveurs américains). Aucune clé d'API n'est
+   exposée : on utilise l'endpoint public des formulaires Brevo, celui
+   que Brevo génère lui-même pour les intégrations sur site web.
+
+   Où trouver l'URL : Brevo > Contacts > Formulaires > ouvrir le
+   formulaire > Partager > Code HTML. C'est la valeur de action="".
+   Elle ressemble à https://sibforms.com/serve/MUIFAP7xxxxxxxxxxxx
+
+   POURQUOI UN SEUL ENVOI, SANS NOUVELLE TENTATIVE
+   Un POST en application/x-www-form-urlencoded est une « requête
+   simple » au sens CORS : le navigateur l'envoie TOUJOURS, puis nous
+   empêche seulement de lire la réponse. Réessayer créerait donc un
+   doublon. On envoie une fois, en mode opaque, et on vérifie le
+   résultat dans le tableau de bord Brevo.
+   ====================================================================== */
+
+function envoyerVersBrevo(endpoint, donnees) {
+  if (!endpoint || endpoint.indexOf("REMPLACER") !== -1) {
+    console.warn("\u26a0\ufe0f Formulaire Brevo non configuré : rien n'est envoyé.");
+    return Promise.resolve({ ok: false, raison: "non_configure" });
+  }
+  var corps = new URLSearchParams();
+  Object.keys(donnees).forEach(function (k) {
+    var v = donnees[k];
+    if (v !== null && v !== undefined && v !== "") corps.set(k, String(v));
+  });
+  corps.set("email_address_check", "");   // piège à robots attendu par Brevo
+  corps.set("locale", "fr");
+
+  return fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: corps
+  }).then(function (r) {
+    return r.json().catch(function () { return null; }).then(function (j) {
+      if (j && j.success) { console.log("\u2705 Transmis à Brevo"); return { ok: true }; }
+      console.warn("\u26a0\ufe0f Brevo a refusé :", j && j.message);
+      return { ok: false, raison: "refus", message: j && j.message };
+    });
+  }).catch(function (e) {
+    console.error("\u274c Envoi vers Brevo impossible :", e);
+    return { ok: false, raison: "reseau" };
+  });
 }
 
 /* ========================================================================
@@ -248,29 +306,31 @@ form.addEventListener("submit", async function (e) {
 
   const utm = getUTMParams();
 
-  // ENVOI VERS FORMSPREE
-  if (CONFIG.FORMSPREE_ENDPOINT) {
-    try {
-      await fetch(CONFIG.FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { "Accept": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({
-          first_name: firstName,
-          email: email,
-          sector: sector,
-          team_size: teamSize,
-          ...utm,
-          page_url: window.location.href,
-          submitted_at: new Date().toISOString()
-        })
-      });
-      console.log("✅ Lead envoyé à Formspree");
-    } catch (err) {
-      console.warn("Formspree error:", err);
-    }
-  } else {
-    console.warn("⚠️ FORMSPREE_ENDPOINT non configuré, l'email n'est pas stocké.");
-  }
+  /* Les clés reprennent EXACTEMENT le nom des attributs Brevo.
+     ATTENTION : ce compte Brevo utilise des attributs en FRANÇAIS.
+     C'est PRENOM (et NOM), pas FIRSTNAME/LASTNAME. Un nom d'attribut
+     inconnu est accepté par Brevo puis ignoré en silence : la valeur
+     est perdue sans aucune erreur. Vérifier dans
+     Brevo > Contacts > Paramètres > Attributs des contacts. */
+  const lead = {
+    EMAIL: email,
+    PRENOM: firstName,
+    SECTEUR: sector,
+    TAILLE_EQUIPE: teamSize,
+    SOURCE: utm.utm_source ? ("guide / " + utm.utm_source) : "guide"
+  };
+
+  /* ----------------------------------------------------------------------
+     ENVOI, PUIS LIVRAISON
+
+     On attend au maximum 4 secondes. Passé ce délai le guide s'affiche
+     quoi qu'il arrive, la requête se terminant en arrière-plan. Le
+     visiteur n'attend jamais un service tiers pour obtenir ce qu'on
+     lui a promis.
+  ---------------------------------------------------------------------- */
+  const envoi = envoyerVersBrevo(CONFIG.ENDPOINT_BREVO, lead);
+  const filet = new Promise(function (r) { setTimeout(r, 4000); });
+  await Promise.race([envoi, filet]);
 
   const pdfUrl = CONFIG.PDF_FILENAME;
 
@@ -314,6 +374,23 @@ form.addEventListener("submit", async function (e) {
     iosTip.classList.add("visible");
   }
 });
+
+/* ========================================================================
+   PRÉ-REMPLISSAGE
+   Le visiteur venant de la bande lead magnet de la page d'accueil a déjà
+   saisi son email. On le récupère dans l'URL pour ne pas le lui redemander.
+   ======================================================================== */
+(function prefillFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  const mail = p.get("email");
+  const prenom = p.get("prenom") || p.get("first_name");
+  const emailField = document.getElementById("email");
+  const nameField = document.getElementById("firstName");
+
+  if (mail && emailField) emailField.value = mail;
+  if (prenom && nameField) nameField.value = prenom;
+  if (mail && !prenom && nameField) nameField.focus();
+})();
 </script>
 
 </body>

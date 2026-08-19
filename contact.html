@@ -592,9 +592,7 @@
         <div>
           <div class="contact-form">
             <h3 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--navy); margin-bottom:20px;">Envoyez-moi un message</h3>
-            <form action="https://formspree.io/f/mgodryqp" method="POST">
-              <input type="hidden" name="_subject" value="📩 Nouveau contact, Site Ivory Consulting"/>
-              <input type="hidden" name="source" value="Formulaire contact site"/>
+            <form action="mailto:guehinadje@ivoryconsulting.fr" method="POST" enctype="text/plain">
               <div class="form-row">
                 <div class="form-group"><label for="f-prenom">Prénom *</label><input id="f-prenom" type="text" name="prenom" placeholder="Votre prénom" required/></div>
                 <div class="form-group"><label for="f-nom">Nom *</label><input id="f-nom" type="text" name="nom" placeholder="Votre nom" required/></div>
@@ -801,6 +799,125 @@
       var a = e.target.closest && e.target.closest('a[href$=".html"]');
       if (a && a.origin === location.origin) precharger(a.href);
     }, { passive:true });
+  })();
+
+
+  /* ======================================================================
+     ENVOI VERS BREVO (hébergement Union européenne)
+
+     Remplace Formspree (serveurs américains). Aucune clé d'API exposée :
+     on utilise l'endpoint public des formulaires Brevo.
+
+     Où trouver l'URL : Brevo > Contacts > Formulaires > ouvrir le
+     formulaire > Partager > Code HTML. C'est la valeur de action="".
+
+     Un seul envoi, jamais de nouvelle tentative : un POST en
+     x-www-form-urlencoded est une « requête simple » au sens CORS, le
+     navigateur l'envoie toujours. Réessayer créerait un doublon.
+     Brevo renvoie les en-têtes CORS : on lit sa réponse JSON.
+     ====================================================================== */
+  var BREVO_FORM_GUIDE   = "https://c6442036.sibforms.com/serve/MUIFAEPe5sRssNa9Hfze7K7MGypVvGR-GXczDzE8ZrjhHhGYLr3t0FNJfbtEY7cOFcGK1mgtwT5f4tcj1DAYAvHOtWrAD-u_4lPHcgYm-ECYNCB-gZPzjshJIv9UgQ0sS-li5e1OBRmGaiUE51TlQHUS7UMAH0Bx-DDaevxxo_uoKLqH1iQCL3oY-25zcjjZoaDBlxIo7qqcEiW7NQ==";
+  var BREVO_FORM_CONTACT = "https://c6442036.sibforms.com/serve/MUIFAHyAXyyfcBq9g3l2iTUITemEiZx8p5MSuteedFCLFX4ovRNmqv7m-_dL1WR0x2m8NBPr7FQlsTg0zUx0w-1UxGri50roROkTgJ-oZP0ODM5czVhPQCwHqOvkoN9m2q323OhAppKXxy1gTXQbSJqomVpON1WksJJFN6te0AJj5IhA6CgxVMS8AdJfgv87GXsglaCvuBsUFZth3Q==";
+
+  function envoyerVersBrevo(endpoint, donnees) {
+    if (!endpoint || endpoint.indexOf("REMPLACER") !== -1) {
+      console.warn("\u26a0\ufe0f Formulaire Brevo non configuré : rien n'est envoyé.");
+      return Promise.resolve({ ok: false, raison: "non_configure" });
+    }
+    var corps = new URLSearchParams();
+    Object.keys(donnees).forEach(function (k) {
+      var v = donnees[k];
+      if (v !== null && v !== undefined && v !== "") corps.set(k, String(v));
+    });
+    corps.set("email_address_check", "");
+    corps.set("locale", "fr");
+
+    return fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: corps
+    }).then(function (r) {
+      return r.json().catch(function () { return null; }).then(function (j) {
+        if (j && j.success) { console.log("\u2705 Transmis à Brevo"); return { ok: true }; }
+        console.warn("\u26a0\ufe0f Brevo a refusé :", j && j.message);
+        return { ok: false, raison: "refus", message: j && j.message };
+      });
+    }).catch(function (e) {
+      console.error("\u274c Envoi vers Brevo impossible :", e);
+      return { ok: false, raison: "reseau" };
+    });
+  }
+
+  /* ======================================================================
+     FORMULAIRE DE CONTACT
+
+     Va dans une liste Brevo SÉPARÉE, « Demandes de contact », qui ne doit
+     JAMAIS recevoir de campagne marketing. Quelqu'un qui pose une question
+     n'a pas consenti à recevoir tes analyses : le RGPD raisonne par
+     finalité, pas par adresse email.
+
+     Envoi en AJAX : le visiteur reste sur la page et voit une confirmation.
+     ====================================================================== */
+  (function formulaireContact(){
+    var form = document.querySelector('.contact-form form');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      var btn = form.querySelector('button[type="submit"]');
+      var libelleOrigine = btn ? btn.innerHTML : '';
+      if (btn) { btn.disabled = true; btn.innerHTML = 'Envoi en cours…'; }
+
+      var brut = {};
+      new FormData(form).forEach(function(v, k){ brut[k] = v; });
+
+      var termine = false;
+      var conclure = function(){
+        if (termine) return;
+        termine = true;
+        form.innerHTML =
+          '<div style="text-align:center; padding:28px 12px;">'
+        + '<div style="font-size:2.4rem; line-height:1;">\u2709\ufe0f</div>'
+        + '<h4 style="font-family:\'Playfair Display\',serif; color:var(--navy); margin:14px 0 8px; font-size:1.2rem;">Message bien reçu</h4>'
+        + '<p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:18px;">Je réponds dans les 24h ouvrées.</p>'
+        + '<a href="https://calendly.com/guehinadje-ivoryconsulting/audit" target="_blank" rel="noopener" '
+        + 'style="display:inline-block; background:var(--navy); color:#fff; padding:12px 22px; border-radius:8px; text-decoration:none; font-weight:600; font-size:0.92rem;">'
+        + 'Ou réserver 15 minutes tout de suite</a></div>';
+      };
+
+      var secours = setTimeout(conclure, 5000);
+      envoyerVersBrevo(BREVO_FORM_CONTACT, {
+        EMAIL:         brut.email,
+        PRENOM:        brut.prenom,
+        NOM:           brut.nom,
+        ENTREPRISE:    brut.entreprise,
+        TAILLE_EQUIPE: brut.effectif,
+        MESSAGE:       brut.message,
+        SOURCE:        "formulaire contact"
+      }).then(function(r){
+        clearTimeout(secours);
+        if (r.ok || r.raison === 'non_configure') { conclure(); return; }
+
+        /* Échec réel : on ne fait PAS semblant que le message est parti.
+           Le visiteur doit savoir qu'il faut passer par un autre canal.
+           Message affiché dans la page, jamais dans une alerte bloquante. */
+        if (btn) { btn.disabled = false; btn.innerHTML = libelleOrigine; }
+        var err = form.querySelector('.erreur-envoi');
+        if (!err) {
+          err = document.createElement('p');
+          err.className = 'erreur-envoi';
+          err.style.cssText = 'margin-top:14px; padding:12px 14px; border-radius:8px; '
+            + 'background:#fdecef; border:1px solid #b0284a; color:#b0284a; font-size:0.88rem; text-align:left;';
+          form.appendChild(err);
+        }
+        err.innerHTML = "L'envoi n'a pas abouti. Écrivez-moi directement à "
+          + '<a href="mailto:guehinadje@ivoryconsulting.fr" style="color:inherit; font-weight:600;">'
+          + 'guehinadje@ivoryconsulting.fr</a>, je réponds sous 24h ouvrées.';
+        err.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
   })();
 </script>
 </body>

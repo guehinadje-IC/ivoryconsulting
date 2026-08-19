@@ -981,7 +981,7 @@
           Découvrez les 5 réflexes managériaux qui épuisent votre équipe à votre insu, et les 5 alternatives neuroscientifiques pour les remplacer. + Un autodiagnostic en 10 questions pour identifier votre profil managérial.
         </p>
         <!-- Mailchimp, remplacez VOTRE_URL_MAILCHIMP_ICI -->
-        <form id="lm-form" action="VOTRE_URL_MAILCHIMP_ICI" method="post" target="_blank" class="lm-form">
+        <form id="lm-form" action="guide.html" method="post" target="_blank" class="lm-form">
           <input type="email" name="EMAIL" placeholder="Votre adresse email professionnelle" class="lm-input" required aria-label="Email"/>
           <button type="submit" class="btn-primary" style="white-space:nowrap;">
             <i class="fas fa-paper-plane"></i> Recevoir le guide
@@ -1158,18 +1158,63 @@
   const strip = document.getElementById('proof-strip');
   if (strip) observer.observe(strip);
 
-  /* ── Mailchimp fallback → direct download ── */
+
+
+  /* ======================================================================
+     ENVOI VERS BREVO (hébergement Union européenne)
+
+     Remplace Formspree (serveurs américains). Aucune clé d'API exposée :
+     on utilise l'endpoint public des formulaires Brevo.
+
+     Où trouver l'URL : Brevo > Contacts > Formulaires > ouvrir le
+     formulaire > Partager > Code HTML. C'est la valeur de action="".
+
+     Un seul envoi, jamais de nouvelle tentative : un POST en
+     x-www-form-urlencoded est une « requête simple » au sens CORS, le
+     navigateur l'envoie toujours. Réessayer créerait un doublon.
+     Brevo renvoie les en-têtes CORS : on lit sa réponse JSON.
+     ====================================================================== */
+  var BREVO_FORM_GUIDE   = "https://c6442036.sibforms.com/serve/MUIFAEPe5sRssNa9Hfze7K7MGypVvGR-GXczDzE8ZrjhHhGYLr3t0FNJfbtEY7cOFcGK1mgtwT5f4tcj1DAYAvHOtWrAD-u_4lPHcgYm-ECYNCB-gZPzjshJIv9UgQ0sS-li5e1OBRmGaiUE51TlQHUS7UMAH0Bx-DDaevxxo_uoKLqH1iQCL3oY-25zcjjZoaDBlxIo7qqcEiW7NQ==";
+  var BREVO_FORM_CONTACT = "https://c6442036.sibforms.com/serve/MUIFAHyAXyyfcBq9g3l2iTUITemEiZx8p5MSuteedFCLFX4ovRNmqv7m-_dL1WR0x2m8NBPr7FQlsTg0zUx0w-1UxGri50roROkTgJ-oZP0ODM5czVhPQCwHqOvkoN9m2q323OhAppKXxy1gTXQbSJqomVpON1WksJJFN6te0AJj5IhA6CgxVMS8AdJfgv87GXsglaCvuBsUFZth3Q==";
+
+  function envoyerVersBrevo(endpoint, donnees) {
+    if (!endpoint || endpoint.indexOf("REMPLACER") !== -1) {
+      console.warn("\u26a0\ufe0f Formulaire Brevo non configuré : rien n'est envoyé.");
+      return Promise.resolve({ ok: false, raison: "non_configure" });
+    }
+    var corps = new URLSearchParams();
+    Object.keys(donnees).forEach(function (k) {
+      var v = donnees[k];
+      if (v !== null && v !== undefined && v !== "") corps.set(k, String(v));
+    });
+    corps.set("email_address_check", "");
+    corps.set("locale", "fr");
+
+    return fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: corps
+    }).then(function (r) {
+      return r.json().catch(function () { return null; }).then(function (j) {
+        if (j && j.success) { console.log("\u2705 Transmis à Brevo"); return { ok: true }; }
+        console.warn("\u26a0\ufe0f Brevo a refusé :", j && j.message);
+        return { ok: false, raison: "refus", message: j && j.message };
+      });
+    }).catch(function (e) {
+      console.error("\u274c Envoi vers Brevo impossible :", e);
+      return { ok: false, raison: "reseau" };
+    });
+  }
+
+  /* ── Bande lead magnet : envoi à Brevo puis ouverture du guide ── */
   const lmForm = document.getElementById('lm-form');
   if (lmForm) {
     lmForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      var _lmEmail = (lmForm.querySelector('input[type="email"]') || {}).value || '';
-      if (_lmEmail) {
-        fetch('https://formspree.io/f/mgodryqp', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: _lmEmail.trim(), source: 'landing.html', submitted_at: new Date().toISOString() })
-        }).catch(function(){});
+      var champ = lmForm.querySelector('input[type="email"]');
+      var mail = (champ && champ.value || '').trim();
+      if (mail) {
+        envoyerVersBrevo(BREVO_FORM_GUIDE, { EMAIL: mail, SOURCE: 'page audit' });
       }
       window.open('lead-magnet.pdf', '_blank');
     });

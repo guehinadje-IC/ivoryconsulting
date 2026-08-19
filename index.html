@@ -900,10 +900,10 @@
         <div class="lm-perk"><i class="fas fa-check-circle"></i> 100% gratuit</div>
       </div>
       <div class="lm-form-wrap">
-        <form class="lm-form" action="https://formspree.io/f/mgodryqp" method="POST">
-          <input type="hidden" name="_subject" value="🎁 Nouveau lead : Guide 5 réflexes (site)"/>
-          <input type="hidden" name="source" value="Bande lead magnet, page d'accueil"/>
-          <input type="hidden" name="_next" value="https://ivoryconsulting.fr/guide.html"/>
+        <form class="lm-form" action="guide.html" method="GET">
+          <input type="hidden" name="utm_source" value="site"/>
+          <input type="hidden" name="utm_medium" value="bande_accueil"/>
+          <input type="hidden" name="utm_campaign" value="lead_magnet"/>
           <input type="email" name="email" placeholder="Votre adresse email professionnelle" required aria-label="Votre adresse email professionnelle"/>
           <button type="submit">Recevoir mon guide gratuit →</button>
         </form>
@@ -1161,6 +1161,92 @@
       var a = e.target.closest && e.target.closest('a[href$=".html"]');
       if (a && a.origin === location.origin) precharger(a.href);
     }, { passive:true });
+  })();
+
+
+
+  /* ======================================================================
+     ENVOI VERS BREVO (hébergement Union européenne)
+
+     Remplace Formspree (serveurs américains). Aucune clé d'API exposée :
+     on utilise l'endpoint public des formulaires Brevo.
+
+     Où trouver l'URL : Brevo > Contacts > Formulaires > ouvrir le
+     formulaire > Partager > Code HTML. C'est la valeur de action="".
+
+     Un seul envoi, jamais de nouvelle tentative : un POST en
+     x-www-form-urlencoded est une « requête simple » au sens CORS, le
+     navigateur l'envoie toujours. Réessayer créerait un doublon.
+     Brevo renvoie les en-têtes CORS : on lit sa réponse JSON.
+     ====================================================================== */
+  var BREVO_FORM_GUIDE   = "https://c6442036.sibforms.com/serve/MUIFAEPe5sRssNa9Hfze7K7MGypVvGR-GXczDzE8ZrjhHhGYLr3t0FNJfbtEY7cOFcGK1mgtwT5f4tcj1DAYAvHOtWrAD-u_4lPHcgYm-ECYNCB-gZPzjshJIv9UgQ0sS-li5e1OBRmGaiUE51TlQHUS7UMAH0Bx-DDaevxxo_uoKLqH1iQCL3oY-25zcjjZoaDBlxIo7qqcEiW7NQ==";
+  var BREVO_FORM_CONTACT = "https://c6442036.sibforms.com/serve/MUIFAHyAXyyfcBq9g3l2iTUITemEiZx8p5MSuteedFCLFX4ovRNmqv7m-_dL1WR0x2m8NBPr7FQlsTg0zUx0w-1UxGri50roROkTgJ-oZP0ODM5czVhPQCwHqOvkoN9m2q323OhAppKXxy1gTXQbSJqomVpON1WksJJFN6te0AJj5IhA6CgxVMS8AdJfgv87GXsglaCvuBsUFZth3Q==";
+
+  function envoyerVersBrevo(endpoint, donnees) {
+    if (!endpoint || endpoint.indexOf("REMPLACER") !== -1) {
+      console.warn("\u26a0\ufe0f Formulaire Brevo non configuré : rien n'est envoyé.");
+      return Promise.resolve({ ok: false, raison: "non_configure" });
+    }
+    var corps = new URLSearchParams();
+    Object.keys(donnees).forEach(function (k) {
+      var v = donnees[k];
+      if (v !== null && v !== undefined && v !== "") corps.set(k, String(v));
+    });
+    corps.set("email_address_check", "");
+    corps.set("locale", "fr");
+
+    return fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: corps
+    }).then(function (r) {
+      return r.json().catch(function () { return null; }).then(function (j) {
+        if (j && j.success) { console.log("\u2705 Transmis à Brevo"); return { ok: true }; }
+        console.warn("\u26a0\ufe0f Brevo a refusé :", j && j.message);
+        return { ok: false, raison: "refus", message: j && j.message };
+      });
+    }).catch(function (e) {
+      console.error("\u274c Envoi vers Brevo impossible :", e);
+      return { ok: false, raison: "reseau" };
+    });
+  }
+
+  /* ======================================================================
+     BANDE LEAD MAGNET, PASSAGE DE RELAIS VERS guide.html
+
+     On capte l'email tout de suite (un visiteur qui abandonne entre les
+     deux pages ne doit pas être perdu), puis on emmène le visiteur sur
+     guide.html avec son email déjà rempli. S'il complète, Brevo met à
+     jour le MÊME contact : pas de doublon, et le mail d'accueil ne part
+     qu'une fois.
+     ====================================================================== */
+  (function relaisLeadMagnet(){
+    var f = document.querySelector('form.lm-form');
+    if (!f) return;
+
+    f.addEventListener('submit', function(e){
+      var champ = f.querySelector('input[type="email"]');
+      var mail  = champ && champ.value.trim();
+      if (!mail) return;                    // laisse la validation native agir
+
+      e.preventDefault();
+
+      var btn = f.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Un instant…'; }
+
+      var suite = function(){
+        window.location.href = 'guide.html?email=' + encodeURIComponent(mail)
+                             + '&utm_source=site&utm_medium=bande_accueil'
+                             + '&utm_campaign=lead_magnet';
+      };
+
+      var secours = setTimeout(suite, 2500);   // on n'attend jamais indéfiniment
+
+      envoyerVersBrevo(BREVO_FORM_GUIDE, {
+        EMAIL: mail,
+        SOURCE: 'bande accueil'
+      }).then(function(){ clearTimeout(secours); suite(); });
+    });
   })();
 </script>
 </body>
