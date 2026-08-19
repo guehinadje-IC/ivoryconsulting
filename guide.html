@@ -67,7 +67,26 @@
   .success .big-button { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 28px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 1.1rem; margin: 10px 4px; }
   .success .big-button:hover { background: #b58a2d; color: var(--ivory); }
 
-  .dl-alt { display: block; margin-top: 6px; font-size: 0.92rem; color: var(--muted); }
+  .envoi-info { font-size: 1.02rem; }
+  .envoi-info strong { color: var(--navy); }
+
+  .attente { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 18px 0 8px; font-size: 0.95rem; color: var(--muted); }
+  .attente .pastille { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+  .attente.arrive .pastille { background: var(--success); animation: none; }
+
+  .checklist.verif { text-align: left; max-width: 460px; margin: 16px auto 0; }
+  .checklist.verif li { font-size: 0.9rem; color: var(--muted); }
+  .checklist.verif li::before { content: "→"; }
+
+  /* Filet de sécurité : révélé seulement après 2 minutes d'attente.
+     Le mail reste le canal principal, mais personne ne repart les mains vides. */
+  .secours { display: none; margin-top: 22px; padding-top: 18px; border-top: 1px dashed rgba(199,155,61,0.4); }
+  .secours.visible { display: block; }
+  .secours p { font-size: 0.9rem; color: var(--muted); margin-bottom: 8px; }
+  .secours > a { color: var(--navy); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+
+  .dl-alt { display: block; margin-top: 10px; font-size: 0.88rem; color: var(--muted); }
   .dl-alt a { color: var(--navy); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--gold); }
   .dl-alt a:hover { color: var(--gold); }
 
@@ -148,25 +167,28 @@
   </section>
 
   <section class="card success" id="successCard">
-    <h2>🎉 Merci <span id="greetingName">!</span></h2>
-    <p>Ton guide est prêt :</p>
+    <h2>📬 Merci <span id="greetingName">!</span></h2>
+    <p class="envoi-info">
+      Ton guide part par email, à l'instant, à l'adresse
+      <strong id="emailEcho">que tu viens de saisir</strong>.
+    </p>
 
-    <a id="pdfLink" class="big-button" href="lead-magnet.pdf" target="_blank" rel="noopener">📄 Ouvrir le guide (PDF)</a>
-
-    <span class="dl-alt">
-      Ou <a id="pdfDownload" href="lead-magnet.pdf" download="Guide-5-reflexes-manageriaux-Ivory-Consulting.pdf">enregistrer le fichier sur mon appareil</a>
-    </span>
-
-    <div class="ios-tip" id="iosTip">
-      <strong>📱 Astuce iPhone/iPad :</strong><br />
-      Le PDF s'ouvre dans Safari. Pour l'enregistrer :<br />
-      1. Appuie sur l'icône <strong>⬆️ Partager</strong> (en bas)<br />
-      2. Choisis <strong>« Enregistrer dans Fichiers »</strong> ou <strong>« Livres »</strong>
+    <div class="attente" id="attente">
+      <span class="pastille"></span>
+      <span>Envoi en cours… il arrive en moins d'une minute.</span>
     </div>
 
-    <div class="error-box" id="errorBox">
-      ⚠️ <strong>PDF introuvable.</strong> Fichier attendu : <code id="expectedFile"></code><br />
-      Vérifie qu'il est bien à la racine de ton repo GitHub.
+    <ul class="checklist verif">
+      <li>Regarde aussi dans <strong>Promotions</strong> et <strong>Spam</strong>, c'est le premier envoi que tu reçois de moi</li>
+      <li>Ajoute <strong>guehinadje@ivoryconsulting.fr</strong> à tes contacts, les suivants arriveront directement</li>
+    </ul>
+
+    <div class="secours" id="secours">
+      <p>Toujours rien après deux minutes ?</p>
+      <a id="pdfLink" href="lead-magnet.pdf" target="_blank" rel="noopener">Ouvrir le guide directement</a>
+      <span class="dl-alt">
+        ou écris-moi à <a href="mailto:guehinadje@ivoryconsulting.fr">guehinadje@ivoryconsulting.fr</a>
+      </span>
     </div>
 
     <div class="secondary-cta">
@@ -203,16 +225,6 @@ const CONFIG = {
   ---------------------------------------------------------------------- */
   ENDPOINT_BREVO: "https://c6442036.sibforms.com/serve/MUIFAEPe5sRssNa9Hfze7K7MGypVvGR-GXczDzE8ZrjhHhGYLr3t0FNJfbtEY7cOFcGK1mgtwT5f4tcj1DAYAvHOtWrAD-u_4lPHcgYm-ECYNCB-gZPzjshJIv9UgQ0sS-li5e1OBRmGaiUE51TlQHUS7UMAH0Bx-DDaevxxo_uoKLqH1iQCL3oY-25zcjjZoaDBlxIo7qqcEiW7NQ=="
 };
-
-/* ========================================================================
-   DÉTECTION iOS
-   ======================================================================== */
-function isIOS() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) return true;
-  if (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua)) return true;
-  return false;
-}
 
 /* ========================================================================
    UTM
@@ -282,9 +294,10 @@ const form = document.getElementById("leadForm");
 const formCard = document.getElementById("formCard");
 const successCard = document.getElementById("successCard");
 const pdfLink = document.getElementById("pdfLink");
-const pdfDownload = document.getElementById("pdfDownload");
+const emailEcho = document.getElementById("emailEcho");
+const attente = document.getElementById("attente");
+const secours = document.getElementById("secours");
 const calcomLink = document.getElementById("calcomLink");
-const iosTip = document.getElementById("iosTip");
 const greetingName = document.getElementById("greetingName");
 const submitBtn = document.getElementById("submitBtn");
 
@@ -343,36 +356,38 @@ form.addEventListener("submit", async function (e) {
   calcomLink.href = bookingUrl;
 
   /* ----------------------------------------------------------------------
-     LIVRAISON DU PDF
-     Deux chemins complémentaires, tous deux déclenchés par un clic humain :
+     LIVRAISON PAR EMAIL
 
-     1. Bouton principal  -> OUVRE le PDF dans un nouvel onglet.
-        Pas d'attribut "download" : le visiteur VOIT immédiatement le guide.
-        C'est le comportement le plus fiable (desktop, Android, iOS).
+     Le guide n'est plus ouvert automatiquement ici. C'est le mail de
+     bienvenue qui le délivre : le visiteur doit ouvrir sa boîte, ce qui
+     valide son adresse et donne au mail une vraie raison d'exister.
 
-     2. Lien secondaire   -> ENREGISTRE le fichier (attribut "download").
-
-     Aucun téléchargement automatique n'est déclenché : les navigateurs
-     bloquent les téléchargements multiples ou non sollicités, ce qui
-     neutralisait ensuite le clic manuel de l'utilisateur.
+     Un filet de sécurité reste prévu : au bout de 2 minutes, un lien
+     direct apparaît. Personne ne doit repartir les mains vides parce
+     qu'un serveur de messagerie a été lent ou a classé le message
+     ailleurs. Ce lien n'est pas visible d'emblée, pour ne pas
+     court-circuiter le mail.
   ---------------------------------------------------------------------- */
+  greetingName.textContent = firstName + " !";
+  calcomLink.href = bookingUrl;
+  if (emailEcho) emailEcho.textContent = email;
   pdfLink.href = pdfUrl;
-  pdfLink.setAttribute("target", "_blank");
-  pdfLink.setAttribute("rel", "noopener");
-  pdfLink.removeAttribute("download");
-  pdfLink.style.display = "";
-
-  pdfDownload.href = pdfUrl;
-  pdfDownload.setAttribute("download", CONFIG.PDF_SAVE_AS);
 
   formCard.style.display = "none";
   successCard.classList.add("visible");
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  if (isIOS()) {
-    // iOS ignore l'attribut "download" : on guide l'utilisateur.
-    iosTip.classList.add("visible");
-  }
+  // Au bout de 45 s, on cesse d'annoncer un envoi « en cours ».
+  setTimeout(function () {
+    if (!attente) return;
+    attente.classList.add("arrive");
+    attente.lastElementChild.textContent = "Envoyé. Si tu ne le vois pas, regarde dans Promotions ou Spam.";
+  }, 45000);
+
+  // Au bout de 2 min, on ouvre le filet de sécurité.
+  setTimeout(function () {
+    if (secours) secours.classList.add("visible");
+  }, 120000);
 });
 
 /* ========================================================================

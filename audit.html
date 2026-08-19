@@ -980,7 +980,6 @@
         <p>
           Découvrez les 5 réflexes managériaux qui épuisent votre équipe à votre insu, et les 5 alternatives neuroscientifiques pour les remplacer. + Un autodiagnostic en 10 questions pour identifier votre profil managérial.
         </p>
-        <!-- Mailchimp, remplacez VOTRE_URL_MAILCHIMP_ICI -->
         <form id="lm-form" action="guide.html" method="post" target="_blank" class="lm-form">
           <input type="email" name="EMAIL" placeholder="Votre adresse email professionnelle" class="lm-input" required aria-label="Email"/>
           <button type="submit" class="btn-primary" style="white-space:nowrap;">
@@ -1206,17 +1205,34 @@
     });
   }
 
-  /* ── Bande lead magnet : envoi à Brevo puis ouverture du guide ── */
+  /* ── Bande lead magnet : le guide part par email, pas en ouverture directe ──
+     Le PDF ne s'ouvre plus ici. C'est le mail de bienvenue qui le délivre,
+     ce qui valide l'adresse et donne au message une vraie raison d'exister. */
   const lmForm = document.getElementById('lm-form');
   if (lmForm) {
     lmForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      if (!lmForm.checkValidity()) { lmForm.reportValidity(); return; }
+
       var champ = lmForm.querySelector('input[type="email"]');
       var mail = (champ && champ.value || '').trim();
-      if (mail) {
-        envoyerVersBrevo(BREVO_FORM_GUIDE, { EMAIL: mail, SOURCE: 'page audit' });
-      }
-      window.open('lead-magnet.pdf', '_blank');
+      if (!mail) return;
+
+      var btn = lmForm.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.innerHTML = 'Envoi en cours…'; }
+
+      var conclure = function () {
+        lmForm.innerHTML =
+          '<p style="margin:0; font-size:0.98rem; line-height:1.55;">'
+        + '\u{1F4EC} <strong>C\'est parti.</strong> Le guide arrive par email à <strong>'
+        + mail.replace(/[<>&]/g, '') + '</strong>, en moins d\'une minute.<br/>'
+        + '<span style="opacity:0.8; font-size:0.88rem;">Pense à regarder dans Promotions ou Spam, '
+        + 'c\'est le premier message que tu reçois de moi.</span></p>';
+      };
+
+      var secours = setTimeout(conclure, 4000);
+      envoyerVersBrevo(BREVO_FORM_GUIDE, { EMAIL: mail, SOURCE: 'page audit' })
+        .then(function () { clearTimeout(secours); conclure(); });
     });
   }
 
