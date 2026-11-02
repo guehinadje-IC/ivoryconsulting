@@ -4,6 +4,13 @@ Allow: /
 # Dossiers de travail (non publics)
 Disallow: /_parts/
 Disallow: /_originaux/
+Disallow: /_maquettes-v1/
+Disallow: /_maquettes-v2/
+Disallow: /_maquettes-v3/
+Disallow: /_maquettes-v4/
+Disallow: /_maquettes-v5/
+Disallow: /_sources-v4/
+Disallow: /_sources-v5/
 
 # Fichiers de travail
 Disallow: /*.md$
